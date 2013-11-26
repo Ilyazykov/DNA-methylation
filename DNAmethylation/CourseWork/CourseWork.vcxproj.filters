@@ -33,6 +33,9 @@
     <ClCompile Include="normalDistribution.cpp">
       <Filter>Файлы исходного кода</Filter>
     </ClCompile>
+    <ClCompile Include="MatrixGraph.cpp">
+      <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Graph.h">
@@ -48,6 +51,9 @@
       <Filter>Заголовочные файлы</Filter>
     </ClInclude>
     <ClInclude Include="normalDistribution.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="MatrixGraph.h">
       <Filter>Заголовочные файлы</Filter>
     </ClInclude>
   </ItemGroup>

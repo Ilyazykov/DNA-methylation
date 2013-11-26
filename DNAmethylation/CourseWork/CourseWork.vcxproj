@@ -65,6 +65,7 @@
     <ClCompile Include="linearRegression.cpp" />
     <ClCompile Include="ListGraph.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="MatrixGraph.cpp" />
     <ClCompile Include="normalDistribution.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -72,6 +73,7 @@
     <ClInclude Include="Human.h" />
     <ClInclude Include="linearRegression.h" />
     <ClInclude Include="ListGraph.h" />
+    <ClInclude Include="MatrixGraph.h" />
     <ClInclude Include="normalDistribution.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
