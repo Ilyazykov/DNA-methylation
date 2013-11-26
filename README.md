@@ -1,6 +1,3 @@
 DNA-methylation
 ===============
-1. Класс or Метод Converter (.rd -> .csv & .csv -> bin)
-2. Предоставить список статей
-3. Сделать обзор еще одной статьи
-4. Складировать "обозренные" статьи в папке papers
+Повторить проделанное в статье Complex networks analysis of obstructive nephropathy data
