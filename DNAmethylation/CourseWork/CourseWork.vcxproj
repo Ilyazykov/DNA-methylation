@@ -11,8 +11,8 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{ED31E694-0E29-4B2D-9C38-0E10E2BCBCBD}</ProjectGuid>
-    <RootNamespace>DNAmethylation</RootNamespace>
+    <ProjectGuid>{CB3A60CF-0F45-45B6-85FA-8F3675A8F273}</ProjectGuid>
+    <RootNamespace>CourseWork</RootNamespace>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -60,13 +60,19 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="csvFile.cpp" />
+    <ClCompile Include="Graph.cpp" />
+    <ClCompile Include="Human.cpp" />
+    <ClCompile Include="linearRegression.cpp" />
+    <ClCompile Include="ListGraph.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="rdFile.cpp" />
+    <ClCompile Include="normalDistribution.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="csvFile.h" />
-    <ClInclude Include="rdFile.h" />
+    <ClInclude Include="Graph.h" />
+    <ClInclude Include="Human.h" />
+    <ClInclude Include="linearRegression.h" />
+    <ClInclude Include="ListGraph.h" />
+    <ClInclude Include="normalDistribution.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
