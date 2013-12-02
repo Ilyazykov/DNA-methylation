@@ -13,8 +13,35 @@ class Human
 	bool isSick;
 	vector<vector<double> > errors;
 
+	vector<vector<double> > zScoreMatrix;
+
 public:
-	void getErrors(const vector<vector<linearRegression> > & linReg, int xi, int yi)
+	Human(void)
+	{
+		miRNAexpression.resize(numberMRA);
+
+		errors.resize(numberMRA);
+		for (int i = 0; i < numberMRA; i++) {
+			errors[i].resize(numberMRA);
+		}
+
+		zScoreMatrix.resize(numberMRA);
+		for (int i = 0; i < numberMRA; i++) {
+			zScoreMatrix[i].resize(numberMRA);
+		}
+	}
+
+	void setZScore(double value, int i, int j)
+	{
+		zScoreMatrix[i][j] = value;
+	}
+
+	double getError(int i, int j)
+	{
+		return errors[i][j];
+	}
+
+	void setErrors(const vector<vector<linearRegression> > & linReg, int xi, int yi)
 	{
 		errors.resize(numberMRA);
 		for (int i = 0; i<numberMRA; i++)
@@ -27,11 +54,6 @@ public:
 				errors[i][j] = linReg[i][j].getError(miRNAexpression[xi], miRNAexpression[yi]);
 			}
 		}
-	}
-
-	Human(void)
-	{
-
 	}
 
 	double getMiRNAexpression(int number)

@@ -4,6 +4,7 @@
 #include <limits>
 #include "Human.h"
 #include "linearRegression.h"
+#include "normalDistribution.h"
 using namespace std;
 
 int getNumberOfHumanFromCSV()
@@ -31,7 +32,8 @@ void main()
 	vector<double> y(size);
 	for (int xi = 0; xi < size; xi++) {
 		x.clear();
-		for (int yi = 0; yi < size; yi++) {
+		for (int yi = 0; yi < size; yi++) 
+		{
 			y.clear();
 			for (int h = 0; h < size; h++) {
 				x.push_back(humans[h].getMiRNAexpression(xi));
@@ -43,24 +45,34 @@ void main()
 	
 	// 3. вычисление матрицы ошибок для каждого человека
 	vector<Human>::iterator human;
-	for (human = humans.begin(); human != humans.end(); ++human) {
+	for (human = humans.begin(); human != humans.end(); ++human) 
+	{
 		for (int i = 0; i < size; i++) {
 			for (int j = 0; j < size; j++) {
-				human->getErrors(linearRegressionDNA, i, j);
+				human->setErrors(linearRegressionDNA, i, j);
 			}
 		}
 	}
 
 	// 4. вычисление матрицы Z для каждого человека
-	vector<Human>::iterator human;
-	for (human = humans.begin(); human != humans.end(); ++human) {
-		for (int i = 0; i < size; i++) {
-			for (int j = 0; j < size; j++) {
-				//TODO
+	for (int i = 0; i < size; i++) {
+		for (int j = 0; j < size; j++) 
+		{
+			vector<double> errorsForLinearRegression(numberOfHuman);
+			for (int h = 0; h < numberOfHuman; h++)
+			{
+				errorsForLinearRegression[h] = humans[h].getError(i, j);
+			}
+			normalDistribution nDistrib(errorsForLinearRegression, 0);
+
+			for (int h = 0; h < numberOfHuman; h++)
+			{
+				humans[h].setZScore(nDistrib.getZScore(humans[h].getError(i, j)),i,j);
 			}
 		}
 	}
 
+	// 5. Z score - есть значения матриц для графа
 
 	cin.get();
 }

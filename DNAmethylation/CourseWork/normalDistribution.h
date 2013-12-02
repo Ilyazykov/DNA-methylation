@@ -10,9 +10,9 @@ class normalDistribution
 	double dispertion;
 	double standartDeviation;
 public:
-	normalDistribution(vector<double> x, double exception)
+	normalDistribution(vector<double> x, double expectation)
 	{
-		this->expectation = exception;
+		this->expectation = expectation;
 
 		double sum = 0;
 		double sumsq = 0;
