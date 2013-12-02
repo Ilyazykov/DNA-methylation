@@ -10,6 +10,11 @@ class normalDistribution
 	double dispertion;
 	double standartDeviation;
 public:
+	normalDistribution()
+	{
+
+	}
+
 	normalDistribution(vector<double> x, double expectation)
 	{
 		this->expectation = expectation;
@@ -31,6 +36,9 @@ public:
 		return e/standartDeviation;
 	}
 
-	~normalDistribution(void);
+	~normalDistribution(void)
+	{
+
+	}
 };
 

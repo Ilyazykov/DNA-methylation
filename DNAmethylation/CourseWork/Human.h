@@ -7,7 +7,7 @@ using namespace std;
 
 class Human
 {
-	static int numberMRA;
+	int numberMRA;
 
 	vector<double> miRNAexpression; //TODOдолжна быть одного размера у всех
 	bool isSick;
@@ -16,7 +16,24 @@ class Human
 	vector<vector<double> > zScoreMatrix;
 
 public:
-	Human(void)
+	
+
+	Human()
+	{
+		//miRNAexpression.resize(numberMRA);
+
+		//errors.resize(numberMRA);
+		//for (int i = 0; i < numberMRA; i++) {
+		//	errors[i].resize(numberMRA);
+		//}
+
+		//zScoreMatrix.resize(numberMRA);
+		//for (int i = 0; i < numberMRA; i++) {
+		//	zScoreMatrix[i].resize(numberMRA);
+		//}
+	}
+
+	Human(int numberMRA)
 	{
 		miRNAexpression.resize(numberMRA);
 
@@ -67,7 +84,7 @@ public:
 		throw exception("Здесь должно происходить считывание из *.csv"); //TODO
 	}
 
-	static int getSizeMiRNAexpression()
+	int getSizeMiRNAexpression()
 	{
 		return numberMRA;
 	}

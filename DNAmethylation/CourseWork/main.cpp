@@ -13,6 +13,12 @@ int getNumberOfHumanFromCSV()
 	return 5;
 }
 
+int getNumberOfMRA()
+{
+	throw exception(); //TODO
+	return 6;
+}
+
 void main()
 {
 	// 1. сбор данных из таблицы
@@ -63,12 +69,13 @@ void main()
 			{
 				errorsForLinearRegression[h] = humans[h].getError(i, j);
 			}
-			normalDistribution nDistrib(errorsForLinearRegression, 0);
+			normalDistribution *nDistrib = new normalDistribution(errorsForLinearRegression, 0.0);
 
 			for (int h = 0; h < numberOfHuman; h++)
 			{
-				humans[h].setZScore(nDistrib.getZScore(humans[h].getError(i, j)),i,j);
+				humans[h].setZScore(nDistrib->getZScore(humans[h].getError(i, j)),i,j);
 			}
+			delete nDistrib;
 		}
 	}
 
