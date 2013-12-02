@@ -12,25 +12,11 @@ class Human
 	vector<double> miRNAexpression; //TODOдолжна быть одного размера у всех
 	bool isSick;
 	vector<vector<double> > errors;
-
-	vector<vector<double> > zScoreMatrix;
-
 public:
 	
 
 	Human()
 	{
-		//miRNAexpression.resize(numberMRA);
-
-		//errors.resize(numberMRA);
-		//for (int i = 0; i < numberMRA; i++) {
-		//	errors[i].resize(numberMRA);
-		//}
-
-		//zScoreMatrix.resize(numberMRA);
-		//for (int i = 0; i < numberMRA; i++) {
-		//	zScoreMatrix[i].resize(numberMRA);
-		//}
 	}
 
 	Human(int numberMRA)
@@ -40,11 +26,6 @@ public:
 		errors.resize(numberMRA);
 		for (int i = 0; i < numberMRA; i++) {
 			errors[i].resize(numberMRA);
-		}
-
-		zScoreMatrix.resize(numberMRA);
-		for (int i = 0; i < numberMRA; i++) {
-			zScoreMatrix[i].resize(numberMRA);
 		}
 	}
 

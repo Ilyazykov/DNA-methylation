@@ -5,6 +5,8 @@
 #include "Human.h"
 #include "linearRegression.h"
 #include "normalDistribution.h"
+#include "Graph.h"
+#include "MatrixGraph.h"
 using namespace std;
 
 int getNumberOfHumanFromCSV()
@@ -60,7 +62,13 @@ void main()
 		}
 	}
 
-	// 4. вычисление матрицы Z для каждого человека
+	// 4. получение графа для каждого человека
+	vector<MatrixGraph> graphsOfHuman(numberOfHuman);
+	for (int i = 0; i < numberOfHuman; i++)
+	{
+		graphsOfHuman[i].create(size);
+	}
+
 	for (int i = 0; i < size; i++) {
 		for (int j = 0; j < size; j++) 
 		{
@@ -73,13 +81,10 @@ void main()
 
 			for (int h = 0; h < numberOfHuman; h++)
 			{
-				humans[h].setZScore(nDistrib->getZScore(humans[h].getError(i, j)),i,j);
+				graphsOfHuman[h].AddArc(i, j, nDistrib->getZScore(humans[h].getError(i, j)));
 			}
-			delete nDistrib;
 		}
 	}
-
-	// 5. Z score - есть значения матриц для графа
 
 	cin.get();
 }

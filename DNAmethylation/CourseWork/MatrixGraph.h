@@ -9,7 +9,23 @@ class MatrixGraph : public Graph
 	vector<vector<double> > matrix;
 	int vertexNumber;
 public:
+	MatrixGraph()
+	{
+
+	}
+
 	MatrixGraph(int vertexNumber) 
+	{
+		this->vertexNumber = vertexNumber;
+
+		matrix.resize(vertexNumber);
+		for (int i = 0; i < vertexNumber; i++)
+		{
+			matrix[i].resize(vertexNumber);
+		}
+	}
+
+	void create(int vertexNumber)
 	{
 		this->vertexNumber = vertexNumber;
 
