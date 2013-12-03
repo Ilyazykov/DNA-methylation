@@ -3,6 +3,7 @@ DNA-methylation
 Повторить проделанное в статье Complex networks analysis of obstructive nephropathy data.
 
 *Заметки
+___________________________________________________________________________________________
 1)
 vector<Graph> graphs;
 for (int i = 0; i < 9000; ++i)
