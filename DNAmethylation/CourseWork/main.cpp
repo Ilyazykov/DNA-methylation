@@ -1,7 +1,9 @@
 #include <iostream>
+#include <string>
 #include <list>
 #include <vector>
 #include <limits>
+#include "SVreader.h"
 #include "Human.h"
 #include "linearRegression.h"
 #include "normalDistribution.h"
@@ -23,6 +25,26 @@ int getNumberOfMRA()
 
 void main()
 {
+	setlocale(LC_ALL, "rus");
+	// 0.
+
+	vector< vector<double> > sarr;
+	
+	string path = "C:\\Users\\user\\Desktop\\Новая папка\\DNA-methylation\\DNAmethylation\\Data\\geneMeanMats.csv";
+	CSVreader reader;
+	reader.readData(path, ",", sarr);
+
+	for ( size_t i=0; i<5; i++ ) {
+
+		for ( size_t j=0; j<5; j++ ) {
+
+			cout << sarr[i][j] << "\t";
+		}
+
+		cout << "\n";
+	}
+
+	cin.get();
 	// 1. сбор данных из таблицы
 	int numberOfHuman = getNumberOfHumanFromCSV();//TODO
 	vector<Human> humans(numberOfHuman);

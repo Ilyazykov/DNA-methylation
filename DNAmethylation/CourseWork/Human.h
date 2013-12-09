@@ -29,11 +29,6 @@ public:
 		}
 	}
 
-	void setZScore(double value, int i, int j)
-	{
-		zScoreMatrix[i][j] = value;
-	}
-
 	double getError(int i, int j)
 	{
 		return errors[i][j];
