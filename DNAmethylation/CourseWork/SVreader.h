@@ -40,11 +40,21 @@ public:
 		return val;
 	}
 
+	void delTitles(vector< vector<double> > &sarr)
+	{
+		sarr.erase(sarr.begin());
+		for ( size_t i=0; i<sarr.size(); i++ ) 
+		{
+			sarr[i].erase(sarr[i].begin());
+		}
+	}
+
 	void readData(const string &filename,
 		const string &csvdelimiter,
 		vector< vector<double> > &sarr,
-		int numX, int numY) 
+		int numY, int numX) 
 	{
+		numY++; numX; //temp
 		ifstream fin(filename.c_str());
 		
 		string s;
@@ -64,7 +74,7 @@ public:
 				{
 					delements.push_back(stringToDouble(selements[i]));
 
-					if (i>=numY) break; //temp
+					if (i>=numX) break; //temp
 				}
 
 				sarr.push_back(delements);
@@ -73,7 +83,7 @@ public:
 			}
 
 			x++;//temp
-			if (x>=numX) break;//temp
+			if (x>=numY) break;//temp
 		}
 
 		fin.close();

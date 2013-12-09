@@ -15,17 +15,18 @@ class Human
 public:
 	
 
-	Human()
+	Human(const vector< vector<double> >& sarr, int i)
 	{
-	}
+		numberMRA = sarr.size();
 
-	Human(int numberMRA)
-	{
-		miRNAexpression.resize(numberMRA);
+		for (int q = 0; q < sarr.size();++q)
+		{
+			miRNAexpression.push_back(sarr[q][i]);
+		}
 
 		errors.resize(numberMRA);
-		for (int i = 0; i < numberMRA; i++) {
-			errors[i].resize(numberMRA);
+		for (int q = 0; q < numberMRA; q++) {
+			errors[q].resize(numberMRA);
 		}
 	}
 

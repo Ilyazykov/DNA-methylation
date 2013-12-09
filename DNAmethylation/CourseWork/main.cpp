@@ -16,18 +16,20 @@ void main()
 	setlocale(LC_ALL, "rus");
 
 	// 0.
-	int numX = 5;
-	int numY = 10;
+	int numX = 4; //TODO изменить для рабочего запуска
+	int numY = 9; //TODO изменить для рабочего запуска
 
 	vector< vector<double> > sarr;
 	
 	string path = "C:\\Users\\user\\Google Диск\\Zykov\\data\\geneMeanMats.csv";
+
 	CSVreader reader;
-	reader.readData(path, ",", sarr, numX, numY);
+	reader.readData(path, ",", sarr, numY, numX);
+	reader.delTitles(sarr);
 
-	for ( size_t i=0; i<5; i++ ) {
+	for ( size_t i=0; i<numY; i++ ) {
 
-		for ( size_t j=0; j<5; j++ ) {
+		for ( size_t j=0; j<numX; j++ ) {
 
 			cout << sarr[i][j] << "\t";
 		}
@@ -37,14 +39,36 @@ void main()
 
 	cin.get();
 	// 1. сбор данных из таблицы
-	int numberOfHuman = sarr.size();
-	vector<Human> humans(numberOfHuman);
+
+	int numberOfMRA = sarr.size();
+	int numberOfHuman = sarr[0].size();
+
+	cout << numberOfHuman << ' ';
+	cout << numberOfMRA;
+	cin.get();
+
+	vector<Human> humans;
 	
-	for (int i = 0; i < numberOfHuman; i++)
+	for (int i = 0; i < numberOfHuman; ++i)
 	{
-		humans[i].getHumanFromCSV(); //TODO
+		humans.emplace_back(Human(sarr, i));
 	}
 
+	for (int i = 0; i<sarr.size(); ++i)
+	{
+		sarr[i].clear();
+	}
+	sarr.clear(); // sarr больше не нужен, он может уходить
+
+
+	cout << endl;
+	for (int i = 0; i < numberOfMRA; i++){
+		cout << humans[0].getMiRNAexpression(i) << ' ';
+	}
+
+	cin.get();
+
+	////////////////////////////////////////////работает
 	// 2. линейная регрессия
 	int size = humans[0].getSizeMiRNAexpression();
 	vector<vector<linearRegression> > linearRegressionDNA(size, size);
