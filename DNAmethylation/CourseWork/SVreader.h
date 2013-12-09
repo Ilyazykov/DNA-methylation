@@ -42,7 +42,8 @@ public:
 
 	void readData(const string &filename,
 		const string &csvdelimiter,
-		vector< vector<double> > &sarr) 
+		vector< vector<double> > &sarr,
+		int numX, int numY) 
 	{
 		ifstream fin(filename.c_str());
 		
@@ -50,8 +51,9 @@ public:
 		vector<string> selements;
 		vector<double> delements;
 
-		while ( !fin.eof() ) {
-
+		int x = 0; //temp
+		while ( !fin.eof() ) 
+		{
 			getline(fin, s);
 
 			if ( !s.empty() ) 
@@ -61,12 +63,17 @@ public:
 				for ( size_t i=0; i<selements.size(); i++ ) 
 				{
 					delements.push_back(stringToDouble(selements[i]));
+
+					if (i>=numY) break; //temp
 				}
 
 				sarr.push_back(delements);
 				selements.clear();
 				delements.clear();
 			}
+
+			x++;//temp
+			if (x>=numX) break;//temp
 		}
 
 		fin.close();

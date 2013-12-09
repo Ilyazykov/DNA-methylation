@@ -11,28 +11,19 @@
 #include "MatrixGraph.h"
 using namespace std;
 
-int getNumberOfHumanFromCSV()
-{
-	throw exception(); //TODO
-	return 5;
-}
-
-int getNumberOfMRA()
-{
-	throw exception(); //TODO
-	return 6;
-}
-
 void main()
 {
 	setlocale(LC_ALL, "rus");
+
 	// 0.
+	int numX = 5;
+	int numY = 10;
 
 	vector< vector<double> > sarr;
 	
-	string path = "C:\\Users\\user\\Desktop\\Новая папка\\DNA-methylation\\DNAmethylation\\Data\\geneMeanMats.csv";
+	string path = "C:\\Users\\user\\Google Диск\\Zykov\\data\\geneMeanMats.csv";
 	CSVreader reader;
-	reader.readData(path, ",", sarr);
+	reader.readData(path, ",", sarr, numX, numY);
 
 	for ( size_t i=0; i<5; i++ ) {
 
@@ -46,7 +37,7 @@ void main()
 
 	cin.get();
 	// 1. сбор данных из таблицы
-	int numberOfHuman = getNumberOfHumanFromCSV();//TODO
+	int numberOfHuman = sarr.size();
 	vector<Human> humans(numberOfHuman);
 	
 	for (int i = 0; i < numberOfHuman; i++)
