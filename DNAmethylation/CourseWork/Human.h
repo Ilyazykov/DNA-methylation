@@ -55,12 +55,6 @@ public:
 		return miRNAexpression[number];
 	}
 
-	void getHumanFromCSV()
-	{
-		cout << "\nHere *.csv file must be read"; //TODO
-		throw exception("Здесь должно происходить считывание из *.csv"); //TODO
-	}
-
 	int getSizeMiRNAexpression()
 	{
 		return numberMRA;

@@ -27,25 +27,10 @@ void main()
 	reader.readData(path, ",", sarr, numY, numX);
 	reader.delTitles(sarr);
 
-	for ( size_t i=0; i<numY; i++ ) {
-
-		for ( size_t j=0; j<numX; j++ ) {
-
-			cout << sarr[i][j] << "\t";
-		}
-
-		cout << "\n";
-	}
-
-	cin.get();
 	// 1. сбор данных из таблицы
 
 	int numberOfMRA = sarr.size();
 	int numberOfHuman = sarr[0].size();
-
-	cout << numberOfHuman << ' ';
-	cout << numberOfMRA;
-	cin.get();
 
 	vector<Human> humans;
 	
@@ -60,34 +45,26 @@ void main()
 	}
 	sarr.clear(); // sarr больше не нужен, он может уходить
 
-
-	cout << endl;
-	for (int i = 0; i < numberOfMRA; i++){
-		cout << humans[0].getMiRNAexpression(i) << ' ';
-	}
-
-	cin.get();
-
-	////////////////////////////////////////////работает
 	// 2. линейная регрессия
-	int size = humans[0].getSizeMiRNAexpression();
-	vector<vector<linearRegression> > linearRegressionDNA(size, size);
+	int size = numberOfMRA;
+	vector<vector<linearRegression> > linearRegressionDNA(numberOfMRA, numberOfMRA);
 
-	vector<double> x(size);
-	vector<double> y(size);
-	for (int xi = 0; xi < size; xi++) {
-		x.clear();
-		for (int yi = 0; yi < size; yi++) 
+	vector<double> x(numberOfHuman);
+	vector<double> y(numberOfHuman);
+	for (int xi = 0; xi < numberOfMRA; xi++) {
+		for (int yi = xi+1; yi < numberOfMRA; yi++) 
 		{
+			x.clear();
 			y.clear();
-			for (int h = 0; h < size; h++) {
+			for (int h = 0; h < numberOfHuman; h++) {
 				x.push_back(humans[h].getMiRNAexpression(xi));
 				y.push_back(humans[h].getMiRNAexpression(yi));
 			}
 			linearRegressionDNA[xi][yi].getLinearRegression(x, y);
 		}
 	}
-	
+
+		////////////////////////////////////////////работает
 	// 3. вычисление матрицы ошибок для каждого человека
 	vector<Human>::iterator human;
 	for (human = humans.begin(); human != humans.end(); ++human) 
@@ -123,5 +100,6 @@ void main()
 		}
 	}
 
+	cout << "Готово!";
 	cin.get();
 }
