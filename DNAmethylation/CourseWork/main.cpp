@@ -1,4 +1,5 @@
 #include <iostream>
+#include <fstream>
 #include <string>
 #include <list>
 #include <vector>
@@ -16,8 +17,8 @@ void main()
 	setlocale(LC_ALL, "rus");
 
 	// 0.
-	int numX = 4; //TODO изменить для рабочего запуска
-	int numY = 9; //TODO изменить для рабочего запуска
+	int numX = 2; //TODO изменить для рабочего запуска
+	int numY = 3; //TODO изменить для рабочего запуска
 
 	vector< vector<double> > sarr;
 	
@@ -95,10 +96,23 @@ void main()
 
 			for (int h = 0; h < numberOfHuman; h++)
 			{
-				graphsOfHuman[h].AddArc(i, j, nDistrib->getZScore(humans[h].getError(i, j)));
+				graphsOfHuman[h].AddArc(i, j, abs(  nDistrib->getZScore(humans[h].getError(i, j))  ));
 			}
 		}
 	}
+
+	// Вывод
+	string pathOut = "out.txt";
+	ofstream outGraph(pathOut.c_str());
+
+	for (int i = 0; i < size; i++) {
+		for (int j = 0; j < size; j++) 
+		{
+			outGraph << graphsOfHuman[1].getEdge(i,j) << "  ";
+		}
+		outGraph << endl;
+	}
+	
 
 	cout << "Готово!";
 	cin.get();

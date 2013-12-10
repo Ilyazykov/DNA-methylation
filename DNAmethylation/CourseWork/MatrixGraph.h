@@ -90,5 +90,10 @@ public:
 		}
 		return sum;
 	}
+
+	double getEdge(int i, int j)
+	{
+		return matrix[i][j];
+	}
 };
 
