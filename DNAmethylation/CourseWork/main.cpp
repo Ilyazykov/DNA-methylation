@@ -53,7 +53,7 @@ void main()
 	vector<double> x(numberOfHuman);
 	vector<double> y(numberOfHuman);
 	for (int xi = 0; xi < numberOfMRA; xi++) {
-		for (int yi = xi+1; yi < numberOfMRA; yi++) 
+		for (int yi = 0; yi < numberOfMRA; yi++) 
 		{
 			x.clear();
 			y.clear();
@@ -112,6 +112,7 @@ void main()
 		}
 		outGraph << endl;
 	}
+	outGraph.close();
 	
 
 	cout << "Готово!";
