@@ -36,7 +36,7 @@ vector<Human> readCSV(string path, int numX, int numY)
 	return humans;
 }
 
-void outGraph( SortedListOfEdge graph ) 
+void outGraph(SortedListOfEdge& graph ) 
 {
 	string pathOut = "out.txt";
 	ofstream outGraph(pathOut.c_str());
@@ -60,8 +60,8 @@ void main()
 	setlocale(LC_ALL, "rus");
 
 	// 1. сбор данных из таблицы
-	int numX = 2; //TODO изменить для рабочего запуска
-	int numY = 3; //TODO изменить для рабочего запуска
+	int numX = 4; //TODO изменить для рабочего запуска
+	int numY = 6; //TODO изменить для рабочего запуска
 	string path = "C:\\Users\\user\\Google Диск\\Zykov\\data\\geneMeanMats.csv";
 
 	vector<Human> humans = readCSV(path, numX, numY);
@@ -97,7 +97,7 @@ void main()
 
 			SortedListOfEdge graph;
 
-			normalDistribution *nDistrib = new normalDistribution(errorsForLinearRegression, 0.0);
+			 normalDistribution *nDistrib = new normalDistribution(errorsForLinearRegression, 0.0);
 			for (int h = 0; h < numberOfHuman; h++)
 			{
 				Edge edge(xi, yi, nDistrib->getZScore(errorsForLinearRegression[h]));
