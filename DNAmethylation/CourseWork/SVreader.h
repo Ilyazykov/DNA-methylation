@@ -70,7 +70,7 @@ public:
 			{
 				splitString(s, selements, csvdelimiter);
 
-				for ( size_t i=0; i<selements.size(); i++ ) 
+				for ( int i=0; i<selements.size(); i++ ) 
 				{
 					delements.push_back(stringToDouble(selements[i]));
 

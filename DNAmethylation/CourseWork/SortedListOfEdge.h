@@ -3,17 +3,20 @@
 #include "Edge.h"
 using namespace std;
 
-class myList
-{
-public:
-	Edge edge;
-	myList *next;
-
-	myList();
-};
-
 class SortedListOfEdge
 {
+private:
+	struct myList {
+		Edge edge;
+		myList *next;
+
+		myList(Edge e, myList *n = NULL)
+		{
+			edge = e;
+			next = n;
+		}
+	};
+
 	myList *begin;
 	int lenght;
 	int maxLenght;
@@ -25,10 +28,24 @@ public:
 		this->maxLenght = maxLenght;
 	}
 
+	Edge Pop()
+	{
+		if (begin == NULL) return Edge(-1,-1,-1);
+
+		myList *temp = begin;
+
+		Edge res = temp->edge;
+		begin = begin->next;
+		delete temp;
+
+		lenght--;
+
+		return res;
+	}
+
 	void Push(Edge edge)
 	{
-		if (lenght+1 != maxLenght) lenght++;
-		//TODO в начало наибольшие, чтобы их удалять
+		//	//TODO в начало наибольшие, чтобы их удалять
 
 		myList *next = begin;
 		myList *prev = NULL;
@@ -39,24 +56,20 @@ public:
 			prev = next;
 			next = next->next;
 		}
-		
+
 		if (prev==NULL) 
 		{
-			if (lenght+1 == maxLenght) return;
-			myList *list = new myList();
-			list->edge = edge;
+			if (lenght == maxLenght) return;
+			myList *list = new myList(edge, next);
 			begin = list;
-			list->next = next;
 		}
 		else
 		{
-			myList *list = new myList();
-			list->edge = edge;
-			list->next = next;
+			myList *list = new myList(edge, next);
 			prev->next = list;
 		}
 
-		if (lenght+1 != maxLenght) lenght++;
+		if (lenght != maxLenght) lenght++;
 		else {
 			myList *temp = begin;
 			begin = begin->next;

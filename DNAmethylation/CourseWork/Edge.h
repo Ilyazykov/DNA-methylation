@@ -5,7 +5,7 @@ class Edge
 	int vertexTwo;
 	double weight;
 public:
-	Edge(int vertexOne, int vertexTwo, double weight)
+	Edge(int vertexOne = -1, int vertexTwo = -1, double weight = -1)
 	{
 		if (vertexOne > vertexTwo) 
 		{
@@ -20,9 +20,18 @@ public:
 		this->weight = weight;
 	}
 
+	Edge(const Edge& e)
+	{
+		this->vertexOne = e.vertexOne;
+		this->vertexTwo = e.vertexTwo;
+		this->weight = e.weight;
+	}
+
 	double getWeight()
 	{
 		return weight;
 	}
+
+	~Edge() {}
 };
 
