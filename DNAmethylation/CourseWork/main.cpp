@@ -35,21 +35,38 @@ void outGraphs(vector<SortedListOfEdge>& graphs )
 	string pathOut = "out.txt";
 	ofstream outGraph(pathOut.c_str());
 
+	outGraph << "library(igraph)";
+
 	int numberOfHumans = graphs.size();
 	for (int human = 0; human < numberOfHumans; human++)
 	{
-		int numberOfEdge = graphs[human].getLenght();
+		outGraph << endl << endl;
+		outGraph << "human №" << human << endl << endl;
+		outGraph << "graphs <- list()" << endl;
+		outGraph << "graphs[[1]] <- graph.formula( ";
 
+		int numberOfEdge = graphs[human].getLenght();
 		for (int i=0; i < numberOfEdge; i++)
 		{
 			Edge e = graphs[human].Pop();
-
-			outGraph << i << '\t';
-			outGraph << e.getVertexOne() << '\t';
-			outGraph << e.getVertexTwo() << '\t';
-			outGraph << e.getWeight() << endl;
+			
+			if (i!=0) outGraph << ", ";
+			outGraph << e.getVertexOne() << "-";
+			outGraph << e.getVertexTwo();
 		}
-		outGraph << endl << endl;
+		outGraph << ")" << endl;
+		outGraph << "graphs[[1]] <- simplify(graphs[[1]])" << endl;
+		outGraph << endl;
+		outGraph << "lay <- lapply(graphs, layout.fruchterman.reingold, niter=3000)" << endl;
+		outGraph << endl;
+		outGraph << "par(mai=c(0,0,0,0))" << endl;
+		outGraph << "layout(matrix(1:1, nr=1, byrow=TRUE))" << endl;
+		outGraph << "layout.show(1)" << endl;
+		outGraph << "for (i in seq(along=graphs)) {" << endl;
+		outGraph << "  plot(graphs[[i]], layout=lay[[i]]," << endl;
+		outGraph << "       vertex.label=NA, vertex.size=3, edge.color=\"black\"," << endl;
+		outGraph << "       vertex.color=\"red\")" << endl;
+		outGraph << "}" << endl;
 	}
 	
 
@@ -61,8 +78,8 @@ void main()
 	setlocale(LC_ALL, "rus");
 
 	// 1. сбор данных из таблицы
-	int numX = 100; //TODO изменить колво людей
-	int numY = 1000; //TODO изменить колво MRA
+	int numX = 10; //TODO изменить колво людей
+	int numY = 40; //TODO изменить колво MRAn
 	string path = "C:\\Users\\user\\Google Диск\\Zykov\\data\\geneMeanMats.csv";
 
 	vector<Human> humans = readCSV(path, numX, numY);
@@ -72,7 +89,7 @@ void main()
 	
 	//
 	vector<SortedListOfEdge> graphs(numberOfHuman);
-	// 2. Получение zScore
+	// 2. Получение графов
 	for (int xi = 0; xi < numberOfMRA; xi++) {
 		for (int yi = xi+1; yi < numberOfMRA; yi++) 
 		{
