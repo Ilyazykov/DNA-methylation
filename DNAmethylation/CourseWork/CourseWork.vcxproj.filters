@@ -16,9 +16,6 @@
     <Filter Include="Graph">
       <UniqueIdentifier>{cfaf0c48-4e3b-46e6-bfdc-357d7b6174e0}</UniqueIdentifier>
     </Filter>
-    <Filter Include="TriangleMatrix">
-      <UniqueIdentifier>{500b0494-1654-4098-8d96-d8c14a82f87f}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -42,9 +39,6 @@
     <ClCompile Include="SortedListOfEdge.cpp">
       <Filter>Файлы исходного кода</Filter>
     </ClCompile>
-    <ClCompile Include="TriangleMatrix.cpp">
-      <Filter>Файлы исходного кода</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Human.h">
@@ -64,9 +58,6 @@
     </ClInclude>
     <ClInclude Include="SortedListOfEdge.h">
       <Filter>Graph</Filter>
-    </ClInclude>
-    <ClInclude Include="TriangleMatrix.h">
-      <Filter>TriangleMatrix</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

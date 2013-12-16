@@ -2,7 +2,6 @@
 #include <vector>
 #include <exception>
 #include <iostream>
-#include "TriangleMatrix.h"
 #include "linearRegression.h"
 using namespace std;
 
@@ -14,7 +13,6 @@ class Human
 	bool isSick;
 public:
 	
-
 	Human(const vector< vector<double> >& sarr, int i)
 	{
 		numberMRA = sarr.size();

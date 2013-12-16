@@ -1,16 +1,12 @@
-#include <iostream>
 #include <fstream>
 #include <string>
-#include <list>
 #include <vector>
-#include <limits>
 #include "SVreader.h"
 #include "Human.h"
 #include "linearRegression.h"
 #include "normalDistribution.h"
 #include "SortedListOfEdge.h"
 #include "Edge.h"
-#include "TriangleMatrix.h"
 using namespace std;
 
 vector<Human> readCSV(string path, int numX, int numY)
@@ -105,7 +101,7 @@ void main()
 
 			for (int h = 0; h < numberOfHuman; h++)  //неверно создаётся граф
 			{
-				Edge edge = (xi, yi, nDistrib->getZScore(errorsForLinearRegression[h]));
+				Edge edge(xi, yi, nDistrib->getZScore(errorsForLinearRegression[h]));
 				graphs[h].Push(edge);
 			}
 
