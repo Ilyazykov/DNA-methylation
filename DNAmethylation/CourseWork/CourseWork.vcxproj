@@ -70,6 +70,7 @@
     <ClCompile Include="normalDistribution.cpp" />
     <ClCompile Include="SortedListOfEdge.cpp" />
     <ClCompile Include="SVreader.cpp" />
+    <ClCompile Include="TriangleMatrix.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Edge.h" />
@@ -81,6 +82,7 @@
     <ClInclude Include="normalDistribution.h" />
     <ClInclude Include="SortedListOfEdge.h" />
     <ClInclude Include="SVreader.h" />
+    <ClInclude Include="TriangleMatrix.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

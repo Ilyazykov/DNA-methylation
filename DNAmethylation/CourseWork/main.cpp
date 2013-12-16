@@ -12,72 +12,72 @@
 #include "MatrixGraph.h"
 #include "SortedListOfEdge.h"
 #include "Edge.h"
+#include "TriangleMatrix.h"
 using namespace std;
+
+//vector<Human> step1(string path, int numX, int numY)
+//{
+//	vector< vector<double> > sarr;
+//
+//	CSVreader reader;
+//	reader.readData(path, ",", sarr, numY, numX);
+//	reader.delTitles(sarr);
+//
+//	int numberOfMRA = sarr.size();
+//	int numberOfHuman = sarr[0].size();
+//
+//	vector<Human> humans;
+//	
+//	for (int i = 0; i < numberOfHuman; ++i)
+//	{
+//		humans.emplace_back(Human(sarr, i));
+//	}
+//
+//	return humans;
+//}
 
 void main()
 {
-	SortedListOfEdge list(4);
+	TriangleMatrix<int> m(4);
 
-	Edge e1(1, 2, 1);
-	Edge e2(2,3,2);
-	Edge e3(3,4,3);
-	Edge e4(4,5,4);
-	Edge e5(5,6,5);
+	for (int i = 0; i<4; i++)
+	{
+		for (int j = 0; j < 4; j++) 
+		{
+			m.addElem(i+j, i, j);
+		}
+	}
 
-	list.Push(e3);
-	list.Push(e1);
-	list.Push(e5);
-	list.Push(e2);
-	list.Push(e4);
-
-	cout << list.Pop().getWeight() << ' ';
-	cout << list.Pop().getWeight() << ' ';
-	cout << list.Pop().getWeight() << ' ';
-	cout << list.Pop().getWeight() << ' ';
-	cout << list.Pop().getWeight() << ' ';
+	for (int i = 0; i<4; i++)
+	{
+		for (int j = 0; j < 4; j++) 
+		{
+			cout << m.get(i, j) << ' ';
+		}
+		cout << endl;
+	}
 
 	cin.get();
-
 	//setlocale(LC_ALL, "rus");
 
-	//// 0.
+	//// 1. сбор данных из таблицы
 	//int numX = 2; //TODO изменить для рабочего запуска
 	//int numY = 3; //TODO изменить для рабочего запуска
 
-	//vector< vector<double> > sarr;
-	//
 	//string path = "C:\\Users\\user\\Google Диск\\Zykov\\data\\geneMeanMats.csv";
 
-	//CSVreader reader;
-	//reader.readData(path, ",", sarr, numY, numX);
-	//reader.delTitles(sarr);
+	//vector<Human> humans = step1(path, numX, numY);
 
-	//// 1. сбор данных из таблицы
-
-	//int numberOfMRA = sarr.size();
-	//int numberOfHuman = sarr[0].size();
-
-	//vector<Human> humans;
+	//int numberOfHuman = humans.size();
+	//int numberOfMRA = humans[0].getSizeMiRNAexpression();
 	//
-	//for (int i = 0; i < numberOfHuman; ++i)
-	//{
-	//	humans.emplace_back(Human(sarr, i));
-	//}
-
-	//for (int i = 0; i<sarr.size(); ++i)
-	//{
-	//	sarr[i].clear();
-	//}
-	//sarr.clear(); // sarr больше не нужен, он может уходить
-
 	//// 2. линейная регрессия
-	//int size = numberOfMRA;
 	//vector<vector<linearRegression> > linearRegressionDNA(numberOfMRA, numberOfMRA);
 
 	//vector<double> x(numberOfHuman);
 	//vector<double> y(numberOfHuman);
 	//for (int xi = 0; xi < numberOfMRA; xi++) {
-	//	for (int yi = 0; yi < numberOfMRA; yi++) 
+	//	for (int yi = xi+1; yi <= numberOfMRA; yi++) 
 	//	{
 	//		x.clear();
 	//		y.clear();
@@ -89,13 +89,12 @@ void main()
 	//	}
 	//}
 
-	//	////////////////////////////////////////////работает
 	//// 3. вычисление матрицы ошибок для каждого человека
 	//vector<Human>::iterator human;
 	//for (human = humans.begin(); human != humans.end(); ++human) 
 	//{
-	//	for (int i = 0; i < size; i++) {
-	//		for (int j = 0; j < size; j++) {
+	//	for (int i = 0; i < numberOfMRA; i++) {
+	//		for (int j = 0; j < numberOfMRA; j++) {
 	//			human->setErrors(linearRegressionDNA, i, j);
 	//		}
 	//	}
@@ -105,11 +104,11 @@ void main()
 	//vector<MatrixGraph> graphsOfHuman(numberOfHuman);
 	//for (int i = 0; i < numberOfHuman; i++)
 	//{
-	//	graphsOfHuman[i].create(size);
+	//	graphsOfHuman[i].create(numberOfMRA);
 	//}
 
-	//for (int i = 0; i < size; i++) {
-	//	for (int j = 0; j < size; j++) 
+	//for (int i = 0; i < numberOfMRA; i++) {
+	//	for (int j = 0; j < numberOfMRA; j++) 
 	//	{
 	//		vector<double> errorsForLinearRegression(numberOfHuman);
 	//		for (int h = 0; h < numberOfHuman; h++)
@@ -129,8 +128,8 @@ void main()
 	//string pathOut = "out.txt";
 	//ofstream outGraph(pathOut.c_str());
 
-	//for (int i = 0; i < size; i++) {
-	//	for (int j = 0; j < size; j++) 
+	//for (int i = 0; i < numberOfMRA; i++) {
+	//	for (int j = 0; j < numberOfMRA; j++) 
 	//	{
 	//		outGraph << graphsOfHuman[1].getEdge(i,j) << "  ";
 	//	}
