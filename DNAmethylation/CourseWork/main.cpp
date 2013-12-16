@@ -118,7 +118,7 @@ void main()
 
 			normalDistribution *nDistrib = new normalDistribution(errorsForLinearRegression, 0.0);
 
-			for (int h = 0; h < numberOfHuman; h++)  //неверно создаётся граф
+			for (int h = 0; h < numberOfHuman; h++)
 			{
 				Edge edge(xi, yi, nDistrib->getZScore(errorsForLinearRegression[h]));
 				graphs[h].Push(edge);

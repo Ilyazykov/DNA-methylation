@@ -50,9 +50,7 @@ public:
 
 		while (next != NULL)
 		{
-			//TODO не понятно в какую сторону лучше сортировать
-			//TODO сторона меняется сменой знака
-			if (next->edge.getWeight() < edge.getWeight()) break; 
+			if (next->edge.getWeight() > edge.getWeight()) break; 
 			prev = next;
 			next = next->next;
 		}
