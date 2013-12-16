@@ -32,16 +32,18 @@ vector<Human> readCSV(string path, int numX, int numY)
 
 void outGraphs(vector<SortedListOfEdge>& graphs ) 
 {
-	string pathOut = "out.txt";
+	string pathOut = "graphs.r";
 	ofstream outGraph(pathOut.c_str());
 
-	outGraph << "library(igraph)";
+	outGraph << "library(igraph, lib.loc=\"C:/Users/Ilya/Documents/RLibrary\")" << endl;
+	outGraph << "setwd(\"C:/Users/user/Desktop/Work/DNA-methylation/DNAmethylation\")" << endl;
+
+	outGraph << "pdf(\"graphs.pdf\")" << endl;
 
 	int numberOfHumans = graphs.size();
 	for (int human = 0; human < numberOfHumans; human++)
 	{
 		outGraph << endl << endl;
-		outGraph << "human №" << human << endl << endl;
 		outGraph << "graphs <- list()" << endl;
 		outGraph << "graphs[[1]] <- graph.formula( ";
 
@@ -61,14 +63,13 @@ void outGraphs(vector<SortedListOfEdge>& graphs )
 		outGraph << endl;
 		outGraph << "par(mai=c(0,0,0,0))" << endl;
 		outGraph << "layout(matrix(1:1, nr=1, byrow=TRUE))" << endl;
-		outGraph << "layout.show(1)" << endl;
 		outGraph << "for (i in seq(along=graphs)) {" << endl;
 		outGraph << "  plot(graphs[[i]], layout=lay[[i]]," << endl;
 		outGraph << "       vertex.label=NA, vertex.size=3, edge.color=\"black\"," << endl;
 		outGraph << "       vertex.color=\"red\")" << endl;
 		outGraph << "}" << endl;
 	}
-	
+	outGraph << "dev.off()" << endl;
 
 	outGraph.close();
 }
@@ -78,8 +79,8 @@ void main()
 	setlocale(LC_ALL, "rus");
 
 	// 1. сбор данных из таблицы
-	int numX = 10; //TODO изменить колво людей
-	int numY = 40; //TODO изменить колво MRAn
+	int numX = 100; //TODO изменить колво людей
+	int numY = 1000; //TODO изменить колво MRAn
 	string path = "C:\\Users\\user\\Google Диск\\Zykov\\data\\geneMeanMats.csv";
 
 	vector<Human> humans = readCSV(path, numX, numY);

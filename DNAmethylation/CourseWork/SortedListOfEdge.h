@@ -45,14 +45,14 @@ public:
 
 	void Push(Edge edge)
 	{
-		//	//TODO в начало наибольшие, чтобы их удалять
-
 		myList *next = begin;
 		myList *prev = NULL;
 
 		while (next != NULL)
 		{
-			if (next->edge.getWeight() < edge.getWeight()) break;
+			//TODO не понятно в какую сторону лучше сортировать
+			//TODO сторона меняется сменой знака
+			if (next->edge.getWeight() < edge.getWeight()) break; 
 			prev = next;
 			next = next->next;
 		}
