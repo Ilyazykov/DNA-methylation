@@ -44,6 +44,7 @@ void outGraphs(vector<SortedListOfEdge>& graphs )
 		{
 			Edge e = graphs[human].Pop();
 
+			outGraph << i << '\t';
 			outGraph << e.getVertexOne() << '\t';
 			outGraph << e.getVertexTwo() << '\t';
 			outGraph << e.getWeight() << endl;
@@ -60,8 +61,8 @@ void main()
 	setlocale(LC_ALL, "rus");
 
 	// 1. сбор данных из таблицы
-	int numX = 3; //TODO изменить для рабочего запуска
-	int numY = 4; //TODO изменить для рабочего запуска
+	int numX = 100; //TODO изменить колво людей
+	int numY = 1000; //TODO изменить колво MRA
 	string path = "C:\\Users\\user\\Google Диск\\Zykov\\data\\geneMeanMats.csv";
 
 	vector<Human> humans = readCSV(path, numX, numY);
