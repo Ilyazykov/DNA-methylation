@@ -2,6 +2,7 @@
 #include <vector>
 #include <exception>
 #include <iostream>
+#include "TriangleMatrix.h"
 #include "linearRegression.h"
 using namespace std;
 
@@ -11,7 +12,7 @@ class Human
 
 	vector<double> miRNAexpression; //TODOдолжна быть одного размера у всех
 	bool isSick;
-	vector<vector<double> > errors;
+	TriangleMatrix<double> errors;
 public:
 	
 
@@ -25,29 +26,16 @@ public:
 		}
 
 		errors.resize(numberMRA);
-		for (int q = 0; q < numberMRA; q++) {
-			errors[q].resize(numberMRA);
-		}
 	}
 
-	double getError(int i, int j)
+	double getError(int x, int y)
 	{
-		return errors[i][j];
+		return errors(x, y);
 	}
 
-	void setErrors(const vector<vector<linearRegression> > & linReg, int xi, int yi)
+	void setError(const linearRegression& linReg, int x, int y)
 	{
-		errors.resize(numberMRA);
-		for (int i = 0; i<numberMRA; i++)
-		{
-			errors[i].resize(numberMRA);
-		}
-
-		for (int i = 0; i < numberMRA; i++) {
-			for (int j = 0; j < numberMRA; j++) {
-				errors[i][j] = linReg[i][j].getError(miRNAexpression[xi], miRNAexpression[yi]);
-			}
-		}
+		errors(x, y) = linReg.getError(miRNAexpression[x], miRNAexpression[y]);
 	}
 
 	double getMiRNAexpression(int number)

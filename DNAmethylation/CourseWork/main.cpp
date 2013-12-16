@@ -15,90 +15,61 @@
 #include "TriangleMatrix.h"
 using namespace std;
 
-//vector<Human> step1(string path, int numX, int numY)
-//{
-//	vector< vector<double> > sarr;
-//
-//	CSVreader reader;
-//	reader.readData(path, ",", sarr, numY, numX);
-//	reader.delTitles(sarr);
-//
-//	int numberOfMRA = sarr.size();
-//	int numberOfHuman = sarr[0].size();
-//
-//	vector<Human> humans;
-//	
-//	for (int i = 0; i < numberOfHuman; ++i)
-//	{
-//		humans.emplace_back(Human(sarr, i));
-//	}
-//
-//	return humans;
-//}
+vector<Human> step1(string path, int numX, int numY)
+{
+	vector< vector<double> > sarr;
+
+	CSVreader reader;
+	reader.readData(path, ",", sarr, numY, numX);
+	reader.delTitles(sarr);
+
+	int numberOfMRA = sarr.size();
+	int numberOfHuman = sarr[0].size();
+
+	vector<Human> humans;
+
+	for (int i = 0; i < numberOfHuman; ++i)
+	{
+		humans.emplace_back(Human(sarr, i));
+	}
+
+	return humans;
+}
 
 void main()
 {
-	TriangleMatrix<int> m(4);
+	setlocale(LC_ALL, "rus");
 
-	for (int i = 0; i<4; i++)
-	{
-		for (int j = 0; j < 4; j++) 
+	// 1. сбор данных из таблицы
+	int numX = 2; //TODO изменить дл€ рабочего запуска
+	int numY = 3; //TODO изменить дл€ рабочего запуска
+
+	string path = "C:\\Users\\user\\Google ƒиск\\Zykov\\data\\geneMeanMats.csv";
+
+	vector<Human> humans = step1(path, numX, numY);
+
+	int numberOfHuman = humans.size();
+	int numberOfMRA = humans[0].getSizeMiRNAexpression();
+	
+	// 2. ѕолучение матрицы ошибок дл€ каждого человека
+	for (int xi = 0; xi < numberOfMRA; xi++) {
+		for (int yi = xi+1; yi < numberOfMRA; yi++) 
 		{
-			m.addElem(i+j, i, j);
+			linearRegression linReg;
+
+			vector<double> x(numberOfHuman);
+			vector<double> y(numberOfHuman);
+			for (int h = 0; h < numberOfHuman; h++) {
+				x.push_back(humans[h].getMiRNAexpression(xi));
+				y.push_back(humans[h].getMiRNAexpression(yi));
+			}
+			linReg.getLinearRegression(x, y);
+				
+			for (int h = 0; h < numberOfHuman; h++) {
+				humans[h].setError(linReg, xi, yi);
+			}
 		}
 	}
-
-	for (int i = 0; i<4; i++)
-	{
-		for (int j = 0; j < 4; j++) 
-		{
-			cout << m.get(i, j) << ' ';
-		}
-		cout << endl;
-	}
-
-	cin.get();
-	//setlocale(LC_ALL, "rus");
-
-	//// 1. сбор данных из таблицы
-	//int numX = 2; //TODO изменить дл€ рабочего запуска
-	//int numY = 3; //TODO изменить дл€ рабочего запуска
-
-	//string path = "C:\\Users\\user\\Google ƒиск\\Zykov\\data\\geneMeanMats.csv";
-
-	//vector<Human> humans = step1(path, numX, numY);
-
-	//int numberOfHuman = humans.size();
-	//int numberOfMRA = humans[0].getSizeMiRNAexpression();
-	//
-	//// 2. линейна€ регресси€
-	//vector<vector<linearRegression> > linearRegressionDNA(numberOfMRA, numberOfMRA);
-
-	//vector<double> x(numberOfHuman);
-	//vector<double> y(numberOfHuman);
-	//for (int xi = 0; xi < numberOfMRA; xi++) {
-	//	for (int yi = xi+1; yi <= numberOfMRA; yi++) 
-	//	{
-	//		x.clear();
-	//		y.clear();
-	//		for (int h = 0; h < numberOfHuman; h++) {
-	//			x.push_back(humans[h].getMiRNAexpression(xi));
-	//			y.push_back(humans[h].getMiRNAexpression(yi));
-	//		}
-	//		linearRegressionDNA[xi][yi].getLinearRegression(x, y);
-	//	}
-	//}
-
-	//// 3. вычисление матрицы ошибок дл€ каждого человека
-	//vector<Human>::iterator human;
-	//for (human = humans.begin(); human != humans.end(); ++human) 
-	//{
-	//	for (int i = 0; i < numberOfMRA; i++) {
-	//		for (int j = 0; j < numberOfMRA; j++) {
-	//			human->setErrors(linearRegressionDNA, i, j);
-	//		}
-	//	}
-	//}
 
 	//// 4. получение графа дл€ каждого человека
 	//vector<MatrixGraph> graphsOfHuman(numberOfHuman);
@@ -136,8 +107,8 @@ void main()
 	//	outGraph << endl;
 	//}
 	//outGraph.close();
-	//
+	
 
-	//cout << "√отово!";
-	//cin.get();
+	cout << "√отово!";
+	cin.get();
 }
