@@ -8,8 +8,6 @@
 #include "Human.h"
 #include "linearRegression.h"
 #include "normalDistribution.h"
-#include "Graph.h"
-#include "MatrixGraph.h"
 #include "SortedListOfEdge.h"
 #include "Edge.h"
 #include "TriangleMatrix.h"
@@ -36,21 +34,27 @@ vector<Human> readCSV(string path, int numX, int numY)
 	return humans;
 }
 
-void outGraph(SortedListOfEdge& graph ) 
+void outGraphs(vector<SortedListOfEdge>& graphs ) 
 {
 	string pathOut = "out.txt";
 	ofstream outGraph(pathOut.c_str());
 
-	int size = graph.getLenght();
-
-	for (int i=0; i < size; i++)
+	int numberOfHumans = graphs.size();
+	for (int human = 0; human < numberOfHumans; human++)
 	{
-		Edge e = graph.Pop();
+		int numberOfEdge = graphs[human].getLenght();
 
-		outGraph << e.getVertexOne() << '\t';
-		outGraph << e.getVertexTwo() << '\t';
-		outGraph << e.getWeight() << endl;
+		for (int i=0; i < numberOfEdge; i++)
+		{
+			Edge e = graphs[human].Pop();
+
+			outGraph << e.getVertexOne() << '\t';
+			outGraph << e.getVertexTwo() << '\t';
+			outGraph << e.getWeight() << endl;
+		}
+		outGraph << endl << endl;
 	}
+	
 
 	outGraph.close();
 }
@@ -60,8 +64,8 @@ void main()
 	setlocale(LC_ALL, "rus");
 
 	// 1. сбор данных из таблицы
-	int numX = 4; //TODO изменить для рабочего запуска
-	int numY = 6; //TODO изменить для рабочего запуска
+	int numX = 3; //TODO изменить для рабочего запуска
+	int numY = 4; //TODO изменить для рабочего запуска
 	string path = "C:\\Users\\user\\Google Диск\\Zykov\\data\\geneMeanMats.csv";
 
 	vector<Human> humans = readCSV(path, numX, numY);
@@ -69,7 +73,9 @@ void main()
 	int numberOfHuman = humans.size();
 	int numberOfMRA = humans[0].getSizeMiRNAexpression();
 	
-	// 2. Получение графов
+	//
+	vector<SortedListOfEdge> graphs(numberOfHuman);
+	// 2. Получение zScore
 	for (int xi = 0; xi < numberOfMRA; xi++) {
 		for (int yi = xi+1; yi < numberOfMRA; yi++) 
 		{
@@ -90,25 +96,25 @@ void main()
 			vector<double> errorsForLinearRegression(numberOfHuman);
 			for (int h = 0; h < numberOfHuman; h++)
 			{
-				errorsForLinearRegression[h] = linReg->getError(humans[h].getMiRNAexpression(xi), humans[h].getMiRNAexpression(yi));
+				errorsForLinearRegression[h] = abs(linReg->getError(humans[h].getMiRNAexpression(xi), humans[h].getMiRNAexpression(yi)));
 			}
 
 			delete linReg;
 
-			SortedListOfEdge graph;
+			normalDistribution *nDistrib = new normalDistribution(errorsForLinearRegression, 0.0);
 
-			 normalDistribution *nDistrib = new normalDistribution(errorsForLinearRegression, 0.0);
-			for (int h = 0; h < numberOfHuman; h++)
+			for (int h = 0; h < numberOfHuman; h++)  //неверно создаётся граф
 			{
-				Edge edge(xi, yi, nDistrib->getZScore(errorsForLinearRegression[h]));
-				graph.Push(edge);
+				Edge edge = (xi, yi, nDistrib->getZScore(errorsForLinearRegression[h]));
+				graphs[h].Push(edge);
 			}
+
 			errorsForLinearRegression.clear();
 			delete nDistrib;
-
-			outGraph(graph);
 		}
 	}	
+
+	outGraphs(graphs);
 
 	cout << "Готово!";
 	cin.get();

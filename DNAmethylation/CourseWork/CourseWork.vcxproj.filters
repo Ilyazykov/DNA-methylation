@@ -24,12 +24,6 @@
     <ClCompile Include="main.cpp">
       <Filter>Файлы исходного кода</Filter>
     </ClCompile>
-    <ClCompile Include="Graph.cpp">
-      <Filter>Файлы исходного кода</Filter>
-    </ClCompile>
-    <ClCompile Include="ListGraph.cpp">
-      <Filter>Файлы исходного кода</Filter>
-    </ClCompile>
     <ClCompile Include="Human.cpp">
       <Filter>Файлы исходного кода</Filter>
     </ClCompile>
@@ -37,9 +31,6 @@
       <Filter>Файлы исходного кода</Filter>
     </ClCompile>
     <ClCompile Include="normalDistribution.cpp">
-      <Filter>Файлы исходного кода</Filter>
-    </ClCompile>
-    <ClCompile Include="MatrixGraph.cpp">
       <Filter>Файлы исходного кода</Filter>
     </ClCompile>
     <ClCompile Include="SVreader.cpp">
@@ -56,12 +47,6 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Graph.h">
-      <Filter>Заголовочные файлы</Filter>
-    </ClInclude>
-    <ClInclude Include="ListGraph.h">
-      <Filter>Заголовочные файлы</Filter>
-    </ClInclude>
     <ClInclude Include="Human.h">
       <Filter>Заголовочные файлы</Filter>
     </ClInclude>
@@ -69,9 +54,6 @@
       <Filter>Заголовочные файлы</Filter>
     </ClInclude>
     <ClInclude Include="normalDistribution.h">
-      <Filter>Заголовочные файлы</Filter>
-    </ClInclude>
-    <ClInclude Include="MatrixGraph.h">
       <Filter>Заголовочные файлы</Filter>
     </ClInclude>
     <ClInclude Include="SVreader.h">
