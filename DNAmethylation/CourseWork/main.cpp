@@ -15,7 +15,7 @@
 #include "TriangleMatrix.h"
 using namespace std;
 
-vector<Human> step1(string path, int numX, int numY)
+vector<Human> readCSV(string path, int numX, int numY)
 {
 	vector< vector<double> > sarr;
 
@@ -36,6 +36,25 @@ vector<Human> step1(string path, int numX, int numY)
 	return humans;
 }
 
+void outGraph( SortedListOfEdge graph ) 
+{
+	string pathOut = "out.txt";
+	ofstream outGraph(pathOut.c_str());
+
+	int size = graph.getLenght();
+
+	for (int i=0; i < size; i++)
+	{
+		Edge e = graph.Pop();
+
+		outGraph << e.getVertexOne() << '\t';
+		outGraph << e.getVertexTwo() << '\t';
+		outGraph << e.getWeight() << endl;
+	}
+
+	outGraph.close();
+}
+
 void main()
 {
 	setlocale(LC_ALL, "rus");
@@ -43,71 +62,53 @@ void main()
 	// 1. сбор данных из таблицы
 	int numX = 2; //TODO изменить для рабочего запуска
 	int numY = 3; //TODO изменить для рабочего запуска
-
 	string path = "C:\\Users\\user\\Google Диск\\Zykov\\data\\geneMeanMats.csv";
 
-	vector<Human> humans = step1(path, numX, numY);
+	vector<Human> humans = readCSV(path, numX, numY);
 
 	int numberOfHuman = humans.size();
 	int numberOfMRA = humans[0].getSizeMiRNAexpression();
 	
-	// 2. Получение матрицы ошибок для каждого человека
+	// 2. Получение графов
 	for (int xi = 0; xi < numberOfMRA; xi++) {
 		for (int yi = xi+1; yi < numberOfMRA; yi++) 
 		{
-			linearRegression linReg;
+			linearRegression *linReg = new linearRegression();
 
 			vector<double> x(numberOfHuman);
 			vector<double> y(numberOfHuman);
+
 			for (int h = 0; h < numberOfHuman; h++) {
 				x.push_back(humans[h].getMiRNAexpression(xi));
 				y.push_back(humans[h].getMiRNAexpression(yi));
 			}
-			linReg.getLinearRegression(x, y);
-				
-			for (int h = 0; h < numberOfHuman; h++) {
-				humans[h].setError(linReg, xi, yi);
+			linReg->getLinearRegression(x, y);
+
+			x.clear();
+			y.clear();
+			
+			vector<double> errorsForLinearRegression(numberOfHuman);
+			for (int h = 0; h < numberOfHuman; h++)
+			{
+				errorsForLinearRegression[h] = linReg->getError(humans[h].getMiRNAexpression(xi), humans[h].getMiRNAexpression(yi));
 			}
+
+			delete linReg;
+
+			SortedListOfEdge graph;
+
+			normalDistribution *nDistrib = new normalDistribution(errorsForLinearRegression, 0.0);
+			for (int h = 0; h < numberOfHuman; h++)
+			{
+				Edge edge(xi, yi, nDistrib->getZScore(errorsForLinearRegression[h]));
+				graph.Push(edge);
+			}
+			errorsForLinearRegression.clear();
+			delete nDistrib;
+
+			outGraph(graph);
 		}
-	}
-
-	//// 4. получение графа для каждого человека
-	//vector<MatrixGraph> graphsOfHuman(numberOfHuman);
-	//for (int i = 0; i < numberOfHuman; i++)
-	//{
-	//	graphsOfHuman[i].create(numberOfMRA);
-	//}
-
-	//for (int i = 0; i < numberOfMRA; i++) {
-	//	for (int j = 0; j < numberOfMRA; j++) 
-	//	{
-	//		vector<double> errorsForLinearRegression(numberOfHuman);
-	//		for (int h = 0; h < numberOfHuman; h++)
-	//		{
-	//			errorsForLinearRegression[h] = humans[h].getError(i, j);
-	//		}
-	//		normalDistribution *nDistrib = new normalDistribution(errorsForLinearRegression, 0.0);
-
-	//		for (int h = 0; h < numberOfHuman; h++)
-	//		{
-	//			graphsOfHuman[h].AddArc(i, j, abs(  nDistrib->getZScore(humans[h].getError(i, j))  ));
-	//		}
-	//	}
-	//}
-
-	//// Вывод
-	//string pathOut = "out.txt";
-	//ofstream outGraph(pathOut.c_str());
-
-	//for (int i = 0; i < numberOfMRA; i++) {
-	//	for (int j = 0; j < numberOfMRA; j++) 
-	//	{
-	//		outGraph << graphsOfHuman[1].getEdge(i,j) << "  ";
-	//	}
-	//	outGraph << endl;
-	//}
-	//outGraph.close();
-	
+	}	
 
 	cout << "Готово!";
 	cin.get();

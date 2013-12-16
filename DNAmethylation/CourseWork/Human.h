@@ -12,7 +12,6 @@ class Human
 
 	vector<double> miRNAexpression; //TODOдолжна быть одного размера у всех
 	bool isSick;
-	TriangleMatrix<double> errors;
 public:
 	
 
@@ -24,18 +23,6 @@ public:
 		{
 			miRNAexpression.push_back(sarr[q][i]);
 		}
-
-		errors.resize(numberMRA);
-	}
-
-	double getError(int x, int y)
-	{
-		return errors(x, y);
-	}
-
-	void setError(const linearRegression& linReg, int x, int y)
-	{
-		errors(x, y) = linReg.getError(miRNAexpression[x], miRNAexpression[y]);
 	}
 
 	double getMiRNAexpression(int number)

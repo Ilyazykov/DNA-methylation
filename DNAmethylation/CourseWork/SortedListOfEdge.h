@@ -77,6 +77,11 @@ public:
 		}
 	}
 
+	int getLenght()
+	{
+		return lenght;
+	}
+
 	~SortedListOfEdge()
 	{
 		myList *iter = begin;

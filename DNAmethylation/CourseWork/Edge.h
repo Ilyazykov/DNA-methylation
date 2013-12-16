@@ -32,6 +32,16 @@ public:
 		return weight;
 	}
 
+	double getVertexOne()
+	{
+		return vertexOne;
+	}
+
+	double getVertexTwo()
+	{
+		return vertexTwo;
+	}
+
 	~Edge() {}
 };
 
