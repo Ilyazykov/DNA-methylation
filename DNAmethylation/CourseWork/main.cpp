@@ -105,24 +105,14 @@ vector<double> getEfficiencies( vector<SortedListOfEdge>& graphs )
 	return res;
 }
 
-void main()
+vector<double> superMethod(vector<Human> humans)
 {
-	setlocale(LC_ALL, "rus");
-
-	// 1. сбор данных из таблицы
-	int numX = 684; //TODO изменить колво людей (684 - максимум)
-	int numY = 1000; //TODO изменить колво MRAn
-	string pathHormone = "C:\\Users\\user\\Google Диск\\Zykov\\data\\geneMeanMats.csv";
-	string pathCase = "C:\\Users\\user\\Google Диск\\Zykov\\data\\phenData.csv";
-
-	vector<Human> humans = readCSV(pathHormone, pathCase, numX, numY);
-
 	int numberOfHuman = humans.size();
 	int numberOfMRA = humans[0].getSizeMiRNAexpression();
 	int hulfOfHealphHumans = getNumberOfControl(humans) / 2;
 	int maxLenghtOfGraph = 500;
 
-	// 2. Получение графов
+	// Получение графов
 	vector<SortedListOfEdge> graphs;
 	for (int i = 0; i < numberOfHuman; ++i)
 	{
@@ -153,7 +143,7 @@ void main()
 
 			x.clear();
 			y.clear();
-			
+
 			vector<double> errorsForLinearRegression(numberOfHuman);
 			for (int h = 0; h < numberOfHuman; h++)
 			{
@@ -175,8 +165,30 @@ void main()
 		}
 	}	
 
-	vector<double> efficiencies = getEfficiency(graphs);
-	outGraphs(graphs, humans);
+	vector<double> efficiencies = getEfficiencies(graphs);
+
+	return efficiencies;
+}
+
+void main()
+{
+	setlocale(LC_ALL, "rus");
+
+	// 1. сбор данных из таблицы
+	int numX = 684; //TODO изменить колво людей (684 - максимум)
+	int numY = 1000; //TODO изменить колво MRAn
+	string pathGeneMeanMats = "C:\\Users\\user\\Google Диск\\Zykov\\data\\geneMeanMats.csv";
+	string pathGeneVarMats = "C:\\Users\\user\\Google Диск\\Zykov\\data\\geneVarMats.csv";
+	string pathPhenData = "C:\\Users\\user\\Google Диск\\Zykov\\data\\phenData.csv";
+
+	vector<Human> humansMean = readCSV(pathGeneMeanMats, pathPhenData, numX, numY);
+	vector<double> efficienciesMean = superMethod(humansMean);
+
+	vector<Human> humansVar = readCSV(pathGeneVarMats, pathPhenData, numX, numY);
+	vector<double> efficienciesVar = superMethod(humansVar);
+
+
+	//outGraphs(graphs, humans);
 
 	cout << "Готово!";
 	cin.get();
