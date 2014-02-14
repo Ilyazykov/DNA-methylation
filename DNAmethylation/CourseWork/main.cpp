@@ -187,6 +187,16 @@ void main()
 	vector<Human> humansVar = readCSV(pathGeneVarMats, pathPhenData, numX, numY);
 	vector<double> efficienciesVar = superMethod(humansVar);
 
+	///
+	string pathOut = "efficiencies.txt";
+	ofstream outEfficiencies(pathOut.c_str());
+
+	for (int i = 0; i < efficienciesMean.size(); i++)
+	{
+		outEfficiencies << efficienciesMean[i] << '\t'<< efficienciesVar[i] << endl();
+	}
+	
+	outEfficiencies.close();
 
 	//outGraphs(graphs, humans);
 
