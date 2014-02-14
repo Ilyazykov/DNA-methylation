@@ -20,12 +20,30 @@ private:
 	myList *begin;
 	int lenght;
 	int maxLenght;
+	int numberOfNodes;
+
 public:
-	SortedListOfEdge(int maxLenght = 500)
+	SortedListOfEdge(int numberOfNodes, int maxLenght)
 	{
 		begin = NULL;
 		lenght = 0;
+		this->numberOfNodes = numberOfNodes;
 		this->maxLenght = maxLenght;
+	}
+
+	double getEfficiency()
+	{
+		double sum = 0;
+
+		myList *next = begin;
+		while (next != NULL)
+		{
+			sum += 1/(next->edge.getWeight());
+			next = next->next;
+		}
+
+		double res = sum/(numberOfNodes*(numberOfNodes-1));
+		return res;
 	}
 
 	Edge Pop()

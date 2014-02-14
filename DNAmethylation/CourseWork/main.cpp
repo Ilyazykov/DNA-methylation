@@ -46,13 +46,13 @@ int getNumberOfControl(vector<Human> humans)
 	return res;
 }
 
-void outGraphs(vector<SortedListOfEdge>& graphs ) 
+void outGraphs(vector<SortedListOfEdge>& graphs, vector<Human> humans ) 
 {
 	string pathOut = "graphs.r";
 	ofstream outGraph(pathOut.c_str());
 
 	outGraph << "library(igraph, lib.loc=\"C:/Users/Ilya/Documents/RLibrary\")" << endl;
-	outGraph << "setwd(\"C:/Users/user/Desktop/Work/DNA-methylation/DNAmethylation\")" << endl;
+	outGraph << "setwd(\"C:/Users/user/Desktop\")" << endl;
 
 	outGraph << "pdf(\"graphs.pdf\")" << endl;
 
@@ -82,12 +82,27 @@ void outGraphs(vector<SortedListOfEdge>& graphs )
 		outGraph << "for (i in seq(along=graphs)) {" << endl;
 		outGraph << "  plot(graphs[[i]], layout=lay[[i]]," << endl;
 		outGraph << "       vertex.label=NA, vertex.size=3, edge.color=\"black\"," << endl;
-		outGraph << "       vertex.color=\"red\")" << endl;
+		outGraph << "       vertex.color=\"";
+		if (humans[human].isSick()) outGraph << "red"; 
+		else outGraph << "green";
+		outGraph << "\")" << endl;
 		outGraph << "}" << endl;
 	}
 	outGraph << "dev.off()" << endl;
 
 	outGraph.close();
+}
+
+vector<double> getEfficiencies( vector<SortedListOfEdge>& graphs ) 
+{
+	vector<double> res(graphs.size());
+
+	for (int i = 0; i < graphs.size(); i++)
+	{
+		res[i] = graphs[i].getEfficiency();
+	}
+
+	return res;
 }
 
 void main()
@@ -96,7 +111,7 @@ void main()
 
 	// 1. сбор данных из таблицы
 	int numX = 684; //TODO изменить колво людей (684 - максимум)
-	int numY = 50; //TODO изменить колво MRAn
+	int numY = 1000; //TODO изменить колво MRAn
 	string pathHormone = "C:\\Users\\user\\Google Диск\\Zykov\\data\\geneMeanMats.csv";
 	string pathCase = "C:\\Users\\user\\Google Диск\\Zykov\\data\\phenData.csv";
 
@@ -105,11 +120,19 @@ void main()
 	int numberOfHuman = humans.size();
 	int numberOfMRA = humans[0].getSizeMiRNAexpression();
 	int hulfOfHealphHumans = getNumberOfControl(humans) / 2;
+	int maxLenghtOfGraph = 500;
 
-	//
-	vector<SortedListOfEdge> graphs(numberOfHuman);
 	// 2. Получение графов
-	for (int xi = 0; xi < numberOfMRA; xi++) {
+	vector<SortedListOfEdge> graphs;
+	for (int i = 0; i < numberOfHuman; ++i)
+	{
+		graphs.emplace_back(SortedListOfEdge(numberOfMRA, maxLenghtOfGraph));
+	}
+
+	for (int xi = 0; xi < numberOfMRA; xi++) 
+	{
+		if (xi % 10 == 0) cout << xi / 10 << endl;
+
 		for (int yi = xi+1; yi < numberOfMRA; yi++) 
 		{
 			linearRegression *linReg = new linearRegression();
@@ -117,7 +140,7 @@ void main()
 			vector<double> x(numberOfHuman);
 			vector<double> y(numberOfHuman);
 
-			for (int h = 0, healph = 0; h < hulfOfHealphHumans; h++) 
+			for (int h = 0, healph = 0; healph < hulfOfHealphHumans; h++) 
 			{
 				if (!humans[h].isSick())
 				{
@@ -152,7 +175,8 @@ void main()
 		}
 	}	
 
-	outGraphs(graphs);
+	vector<double> efficiencies = getEfficiency(graphs);
+	outGraphs(graphs, humans);
 
 	cout << "Готово!";
 	cin.get();
