@@ -34,6 +34,6 @@ ______________________________________________________________________________
 Код в R <br>
 
 `setwd("C:\\Users\\user\\Google Диск\\Zykov\\data")` <br>
-`load("filename.rd")` <br>
-`write.csv(testData, file="NAME.csv")` <br>
-`View(testData)` <br>
+`load("phenDataTCGABRCA.rd")` <br>
+`write.csv(phen, file="phenData.csv")` <br>
+`View(phen)` <br>
