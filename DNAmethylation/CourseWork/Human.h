@@ -13,7 +13,7 @@ class Human
 	bool isSick;
 public:
 	
-	Human(const vector< vector<double> >& sarr, int i)
+	Human(const vector< vector<double> >& sarr, const vector<bool> canser, int i)
 	{
 		numberMRA = sarr.size();
 
@@ -21,6 +21,8 @@ public:
 		{
 			miRNAexpression.push_back(sarr[q][i]);
 		}
+
+		isSick = canser[i];
 	}
 
 	double getMiRNAexpression(int number)

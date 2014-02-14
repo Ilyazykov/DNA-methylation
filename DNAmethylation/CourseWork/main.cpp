@@ -9,13 +9,18 @@
 #include "Edge.h"
 using namespace std;
 
-vector<Human> readCSV(string path, int numX, int numY)
+vector<Human> readCSV(string pathForMatrixHormone, string pathForCase, int numX, int numY)
 {
 	vector< vector<double> > sarr;
+	vector<bool> canserArray;
 
-	CSVreader reader;
-	reader.readData(path, ",", sarr, numY, numX);
-	reader.delTitles(sarr);
+	CSVreader readerForHormoneLevel;
+	readerForHormoneLevel.readData(pathForMatrixHormone, ",", sarr, numY, numX);
+	readerForHormoneLevel.delTitles(sarr);
+
+	CSVreader readerForCanser;
+	readerForCanser.readVector(pathForCase, ",", canserArray, numY);
+	canserArray.erase(canserArray.begin());
 
 	int numberOfMRA = sarr.size();
 	int numberOfHuman = sarr[0].size();
@@ -24,7 +29,7 @@ vector<Human> readCSV(string path, int numX, int numY)
 
 	for (int i = 0; i < numberOfHuman; ++i)
 	{
-		humans.emplace_back(Human(sarr, i));
+		humans.emplace_back(Human(sarr,canserArray, i));
 	}
 
 	return humans;
@@ -79,11 +84,12 @@ void main()
 	setlocale(LC_ALL, "rus");
 
 	// 1. сбор данных из таблицы
-	int numX = 100; //TODO изменить колво людей
-	int numY = 1000; //TODO изменить колво MRAn
-	string path = "C:\\Users\\user\\Google Диск\\Zykov\\data\\geneMeanMats.csv";
+	int numX = 20; //TODO изменить колво людей
+	int numY = 20; //TODO изменить колво MRAn
+	string pathHormone = "C:\\Users\\user\\Google Диск\\Zykov\\data\\geneMeanMats.csv";
+	string pathCase = "C:\\Users\\user\\Google Диск\\Zykov\\data\\phenData.csv";
 
-	vector<Human> humans = readCSV(path, numX, numY);
+	vector<Human> humans = readCSV(pathHormone, pathCase, numX, numY);
 
 	int numberOfHuman = humans.size();
 	int numberOfMRA = humans[0].getSizeMiRNAexpression();

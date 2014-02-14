@@ -54,14 +54,14 @@ public:
 		vector< vector<double> > &sarr,
 		int numY, int numX) 
 	{
-		numY++; numX; //temp
+		numY++; numX;
 		ifstream fin(filename.c_str());
 		
 		string s;
 		vector<string> selements;
 		vector<double> delements;
 
-		int x = 0; //temp
+		int x = 0;
 		while ( !fin.eof() ) 
 		{
 			getline(fin, s);
@@ -74,7 +74,7 @@ public:
 				{
 					delements.push_back(stringToDouble(selements[i]));
 
-					if (i>=numX) break; //temp
+					if (i>=numX) break;
 				}
 
 				sarr.push_back(delements);
@@ -82,11 +82,50 @@ public:
 				delements.clear();
 			}
 
-			x++;//temp
-			if (x>=numY) break;//temp
+			x++;
+			if (x>=numY) break;
 		}
 
 		fin.close();
+	}
+
+	void readVector( const string &filename,
+		const string &csvdelimiter,
+		vector<bool> &sarr,
+		int numY )
+	{
+		numY++;
+		ifstream fin(filename.c_str());
+
+		string s;
+		vector<string> selements;
+		//vector<double> delements;
+
+		int x = 0;
+		while ( !fin.eof() ) 
+		{
+			getline(fin, s);
+
+			if ( !s.empty() ) 
+			{
+				splitString(s, selements, csvdelimiter);
+
+				sarr.push_back(stringToBool(selements[1]));
+				selements.clear();
+				//delements.clear();
+			}
+
+			x++;
+			if (x>=numY) break;
+		}
+
+		fin.close();
+	}
+
+	bool stringToBool(const string &str)
+	{
+		if (str == "TRUE") return true;
+		else return false;
 	}
 };
 
