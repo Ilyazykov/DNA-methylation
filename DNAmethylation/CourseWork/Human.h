@@ -10,7 +10,7 @@ class Human
 	int numberMRA;
 
 	vector<double> miRNAexpression; //TODOдолжна быть одного размера у всех
-	bool isSick;
+	bool sick;
 public:
 	
 	Human(const vector< vector<double> >& sarr, const vector<bool> canser, int i)
@@ -22,7 +22,12 @@ public:
 			miRNAexpression.push_back(sarr[q][i]);
 		}
 
-		isSick = canser[i];
+		sick = canser[i];
+	}
+
+	bool isSick()
+	{
+		return sick;
 	}
 
 	double getMiRNAexpression(int number)

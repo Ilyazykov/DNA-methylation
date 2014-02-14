@@ -19,7 +19,7 @@ vector<Human> readCSV(string pathForMatrixHormone, string pathForCase, int numX,
 	readerForHormoneLevel.delTitles(sarr);
 
 	CSVreader readerForCanser;
-	readerForCanser.readVector(pathForCase, ",", canserArray, numY);
+	readerForCanser.readVector(pathForCase, ",", canserArray, numX);
 	canserArray.erase(canserArray.begin());
 
 	int numberOfMRA = sarr.size();
@@ -33,6 +33,17 @@ vector<Human> readCSV(string pathForMatrixHormone, string pathForCase, int numX,
 	}
 
 	return humans;
+}
+
+int getNumberOfControl(vector<Human> humans)
+{
+	int res = 0;
+	for (int i = 0; i < humans.size(); i++)
+	{
+		if (!humans[i].isSick()) res++;
+	}
+
+	return res;
 }
 
 void outGraphs(vector<SortedListOfEdge>& graphs ) 
@@ -84,8 +95,8 @@ void main()
 	setlocale(LC_ALL, "rus");
 
 	// 1. сбор данных из таблицы
-	int numX = 20; //TODO изменить колво людей
-	int numY = 20; //TODO изменить колво MRAn
+	int numX = 684; //TODO изменить колво людей (684 - максимум)
+	int numY = 50; //TODO изменить колво MRAn
 	string pathHormone = "C:\\Users\\user\\Google Диск\\Zykov\\data\\geneMeanMats.csv";
 	string pathCase = "C:\\Users\\user\\Google Диск\\Zykov\\data\\phenData.csv";
 
@@ -93,7 +104,8 @@ void main()
 
 	int numberOfHuman = humans.size();
 	int numberOfMRA = humans[0].getSizeMiRNAexpression();
-	
+	int hulfOfHealphHumans = getNumberOfControl(humans) / 2;
+
 	//
 	vector<SortedListOfEdge> graphs(numberOfHuman);
 	// 2. Получение графов
@@ -105,9 +117,14 @@ void main()
 			vector<double> x(numberOfHuman);
 			vector<double> y(numberOfHuman);
 
-			for (int h = 0; h < numberOfHuman; h++) {
-				x.push_back(humans[h].getMiRNAexpression(xi));
-				y.push_back(humans[h].getMiRNAexpression(yi));
+			for (int h = 0, healph = 0; h < hulfOfHealphHumans; h++) 
+			{
+				if (!humans[h].isSick())
+				{
+					x.push_back(humans[h].getMiRNAexpression(xi));
+					y.push_back(humans[h].getMiRNAexpression(yi));
+					healph++;
+				}
 			}
 			linReg->getLinearRegression(x, y);
 
