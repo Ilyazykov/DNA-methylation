@@ -9,6 +9,9 @@ load("phenDataTCGABRCA.rd")
 control1 <- v1[which(phen==FALSE)] 
 control2 <- v2[which(phen==FALSE)] 
 
+control1 = control1[(length(control1) / 2):(length(control1))]
+control2 = control2[(length(control2) / 2):(length(control2))]
+
 case1 <- v1[which(phen==TRUE)]
 case2 <- v2[which(phen==TRUE)]
 
@@ -19,8 +22,8 @@ min2 = min(control2,case2)
 max2 = max(control2,case2)
 
 plot(0,0, xlim=c(min1,max1), ylim=c(min2,max2))
-points(control1, control2, col="blue")
 points(case1, case2, col="red")
+points(control1, control2, col="blue")
 dev.copy2pdf(file=paste("plot.pdf",sep=""))
 
 
