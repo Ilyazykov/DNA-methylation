@@ -1,5 +1,30 @@
-mydata <- read.xls("C:/data.xls")
+setwd("C:/Users/user/Desktop/Diploma/DNA-methylation/DNAmethylation/CourseWork")
 
+mydata <- read.table("efficiencies.txt", dec=".")
+attach(mydata)
+v1 <- mydata$V1
+v2 <- mydata$V2
+load("phenDataTCGABRCA.rd")
+
+control1 <- v1[which(phen==FALSE)] 
+control2 <- v2[which(phen==FALSE)] 
+
+case1 <- v1[which(phen==TRUE)]
+case2 <- v2[which(phen==TRUE)]
+
+min1 = min(control1,case1)
+max1 = max(control1,case1)
+
+min2 = min(control2,case2)
+max2 = max(control2,case2)
+
+plot(0,0, xlim=c(min1,max1), ylim=c(min2,max2))
+points(control1, control2, col="blue")
+points(case1, case2, col="red")
+dev.copy2pdf(file=paste("plot.pdf",sep=""))
+
+
+//-------------------------------------------------
 library(e1071)
 library(rpart)
 svm.TP = svm.FN = svm.FP = svm.TN = 0
