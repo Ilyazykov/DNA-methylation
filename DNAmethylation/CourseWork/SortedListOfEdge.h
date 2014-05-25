@@ -1,5 +1,6 @@
 #pragma once
 #include <iostream>
+#include <map>
 #include "Edge.h"
 using namespace std;
 
@@ -29,6 +30,31 @@ public:
 		lenght = 0;
 		this->numberOfNodes = numberOfNodes;
 		this->maxLenght = maxLenght;
+	}
+
+	int getMaxVertex()
+	{
+		map<int, int> vertexes;
+
+		myList *next = begin;
+		while (next != NULL)
+		{
+			vertexes[next->edge.getVertexOne()]++;
+			vertexes[next->edge.getVertexTwo()]++;
+
+			next = next->next;
+		}
+
+		int max = 0;
+		map<int,int>::iterator iter;
+		for (iter=vertexes.begin(); iter!=vertexes.end(); ++iter)
+		{
+			if ((*iter).second > max)
+			{
+				max = (*iter).second;
+			}
+		}
+		return max;
 	}
 
 	double getEfficiency()

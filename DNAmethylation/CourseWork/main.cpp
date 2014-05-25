@@ -105,7 +105,19 @@ vector<double> getEfficiencies( vector<SortedListOfEdge>& graphs )
 	return res;
 }
 
-vector<double> superMethod(vector<Human> humans)
+vector<double> getMaxVertexes( vector<SortedListOfEdge>& graphs ) 
+{
+	vector<double> res(graphs.size());
+
+	for (int i = 0; i < graphs.size(); i++)
+	{
+		res[i] = graphs[i].getMaxVertex();
+	}
+
+	return res;
+}
+
+vector<SortedListOfEdge> superMethod(vector<Human> humans)
 {
 	int numberOfHuman = humans.size();
 	int numberOfMRA = humans[0].getSizeMiRNAexpression();
@@ -164,10 +176,7 @@ vector<double> superMethod(vector<Human> humans)
 			delete nDistrib;
 		}
 	}	
-
-	vector<double> efficiencies = getEfficiencies(graphs);
-
-	return efficiencies;
+	return graphs;
 }
 
 void main()
@@ -177,28 +186,27 @@ void main()
 	// 1. сбор данных из таблицы
 	int numX = 684; //TODO изменить колво людей (684 - максимум)
 	int numY = 1000; //TODO изменить колво MRAn
-	string pathGeneMeanMats = "C:\\Users\\user\\Google Диск\\Zykov\\data\\geneMeanMats.csv";
-	string pathGeneVarMats = "C:\\Users\\user\\Google Диск\\Zykov\\data\\geneVarMats.csv";
-	string pathPhenData = "C:\\Users\\user\\Google Диск\\Zykov\\data\\phenData.csv";
+	string pathGeneMeanMats = "C:\\Users\\Ilya\\Google Диск\\Zykov\\data\\geneMeanMats.csv";
+	string pathGeneVarMats = "C:\\Users\\Ilya\\Google Диск\\Zykov\\data\\geneVarMats.csv";
+	string pathPhenData = "C:\\Users\\Ilya\\Google Диск\\Zykov\\data\\phenData.csv";
 
 	vector<Human> humansMean = readCSV(pathGeneMeanMats, pathPhenData, numX, numY);
-	vector<double> efficienciesMean = superMethod(humansMean);
+	vector<SortedListOfEdge> graphs = superMethod(humansMean);
 
-	vector<Human> humansVar = readCSV(pathGeneVarMats, pathPhenData, numX, numY);
-	vector<double> efficienciesVar = superMethod(humansVar);
+	vector<double> efficiencies = getEfficiencies(graphs);
+	vector<double> valuesOfMaxVertexes = getMaxVertexes(graphs);
+	//outGraphs(graphs, humans);
 
 	///
 	string pathOut = "efficiencies.txt";
 	ofstream outEfficiencies(pathOut.c_str());
 
-	for (int i = 0; i < efficienciesMean.size(); i++)
+	for (int i = 0; i < graphs.size(); i++)
 	{
-		outEfficiencies << efficienciesMean[i] << '\t'<< efficienciesVar[i] << endl();
+		outEfficiencies << efficiencies[i] << '\t'<< valuesOfMaxVertexes[i] << endl;
 	}
 	
 	outEfficiencies.close();
-
-	//outGraphs(graphs, humans);
 
 	cout << "Готово!";
 	cin.get();
