@@ -5,7 +5,7 @@
 #include "ILinearRegression.h"
 using namespace std;
 
-class linearRegression : ILinearRegression
+class linearRegression : public ILinearRegression
 {
 	//a1*x+a2*y=b
 	//a1^2 + a2^2 = 1
@@ -51,7 +51,7 @@ public:
 
 	virtual double getError(double x, double y) const
 	{
-		return abs(a1*x+a2*y - b);
+		return a1*x+a2*y - b;
 	}
 	~linearRegression(void) {}
 };
