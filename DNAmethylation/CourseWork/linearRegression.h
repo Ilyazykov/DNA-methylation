@@ -1,19 +1,23 @@
 #pragma once
 #include <vector>
 #include <exception>
+#include <cmath>
+#include "ILinearRegression.h"
 using namespace std;
 
-class linearRegression
+class linearRegression : ILinearRegression
 {
-	//y = beta * x + alpha
-	double alpha;
-	double beta;
+	//a1*x+a2*y=b
+	//a1^2 + a2^2 = 1
+	double a1, a2;
+	double b;
+
 public:
 	linearRegression()
 	{
 	}
 
-	void getLinearRegression(vector<double> x, vector<double> y)
+	virtual void getLinearRegression(vector<double> x, vector<double> y)
 	{
 		if (x.size() != y.size()) throw exception("Size of vectors is different");
 
@@ -23,6 +27,7 @@ public:
 		double sumOfX = 0;
 		double sumOfXY = 0;
 		double sumOfXsq = 0;
+		double sumOfYsq = 0;
 
 		for (int i=0;i<n;i++)
 		{
@@ -30,45 +35,24 @@ public:
 			sumOfX += x[i];
 			sumOfXY += x[i] * y[i];
 			sumOfXsq += x[i] * x[i];
+			sumOfYsq += y[i] * y[i];
 		}
-
-		beta = (n*sumOfXY - sumOfX*sumOfY)/(n*sumOfXsq - sumOfX*sumOfX);
-		alpha = (sumOfY - beta*sumOfX)/(double)n;
+		
+		double fi = atan( 2*(n*sumOfXY-sumOfX*sumOfY) / ((n*sumOfYsq-pow(sumOfY,2))-(n*sumOfXsq-pow(sumOfX,2))) )  /  2;
+		a1 = sin(fi);
+		a2 = cos(fi);
+		b = (a1*sumOfX+ a2*sumOfY) / (double)n;
 	}
 
 	linearRegression(vector<double> x, vector<double> y)
 	{
-		if (x.size() != y.size()) throw exception("Size of vectors is different");
-
-		int n = x.size();
-
-		double sumOfY = 0;
-		double sumOfX = 0;
-		double sumOfXY = 0;
-		double sumOfXsq = 0;
-
-		for (int i=0;i<n;i++)
-		{
-			sumOfY += y[i];
-			sumOfX += x[i];
-			sumOfXY += x[i] * y[i];
-			sumOfXsq += x[i] * x[i];
-		}
-
-		beta = (n*sumOfXY - sumOfX*sumOfY)/(n*sumOfXsq - sumOfX*sumOfX);
-		alpha = (sumOfY - beta*sumOfX)/(double)n;
+		getLinearRegression(x, y);
 	}
 
-	double getError(double x, double y) const
+	virtual double getError(double x, double y) const
 	{
-		return y - beta*x - alpha;
+		return abs(a1*x+a2*y - b);
 	}
-
-	double getValue(double x)
-	{
-		return beta*x + alpha;
-	}
-
 	~linearRegression(void) {}
 };
 

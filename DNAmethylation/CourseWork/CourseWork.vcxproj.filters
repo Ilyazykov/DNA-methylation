@@ -16,6 +16,9 @@
     <Filter Include="Graph">
       <UniqueIdentifier>{cfaf0c48-4e3b-46e6-bfdc-357d7b6174e0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Regression">
+      <UniqueIdentifier>{eb5da234-6fa1-4d87-a7c9-5e8bed84ba8b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -24,27 +27,30 @@
     <ClCompile Include="Human.cpp">
       <Filter>Файлы исходного кода</Filter>
     </ClCompile>
-    <ClCompile Include="linearRegression.cpp">
-      <Filter>Файлы исходного кода</Filter>
-    </ClCompile>
     <ClCompile Include="normalDistribution.cpp">
       <Filter>Файлы исходного кода</Filter>
     </ClCompile>
     <ClCompile Include="SVreader.cpp">
       <Filter>Файлы исходного кода</Filter>
     </ClCompile>
+    <ClCompile Include="ILinearRegression.cpp">
+      <Filter>Regression</Filter>
+    </ClCompile>
+    <ClCompile Include="linearRegression.cpp">
+      <Filter>Regression</Filter>
+    </ClCompile>
+    <ClCompile Include="OrdinaryLeastSquares.cpp">
+      <Filter>Regression</Filter>
+    </ClCompile>
     <ClCompile Include="Edge.cpp">
-      <Filter>Файлы исходного кода</Filter>
+      <Filter>Graph</Filter>
     </ClCompile>
     <ClCompile Include="SortedListOfEdge.cpp">
-      <Filter>Файлы исходного кода</Filter>
+      <Filter>Graph</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Human.h">
-      <Filter>Заголовочные файлы</Filter>
-    </ClInclude>
-    <ClInclude Include="linearRegression.h">
       <Filter>Заголовочные файлы</Filter>
     </ClInclude>
     <ClInclude Include="normalDistribution.h">
@@ -58,6 +64,15 @@
     </ClInclude>
     <ClInclude Include="SVreader.h">
       <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="linearRegression.h">
+      <Filter>Regression</Filter>
+    </ClInclude>
+    <ClInclude Include="ILinearRegression.h">
+      <Filter>Regression</Filter>
+    </ClInclude>
+    <ClInclude Include="OrdinaryLeastSquares.h">
+      <Filter>Regression</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -1,4 +1,4 @@
-setwd("C:/Users/user/Desktop/Diploma/DNA-methylation/DNAmethylation/CourseWork")
+setwd("D:/Diploma")
 
 mydata <- read.table("efficiencies.txt", dec=".")
 attach(mydata)

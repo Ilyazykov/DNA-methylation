@@ -3,7 +3,9 @@
 #include <vector>
 #include "SVreader.h"
 #include "Human.h"
+#include "ILinearRegression.h"
 #include "linearRegression.h"
+#include "OrdinaryLeastSquares.h"
 #include "normalDistribution.h"
 #include "SortedListOfEdge.h"
 #include "Edge.h"
@@ -124,7 +126,6 @@ vector<SortedListOfEdge> superMethod(vector<Human> humans)
 	int hulfOfHealphHumans = getNumberOfControl(humans) / 2;
 	int maxLenghtOfGraph = 500;
 
-	// Получение графов
 	vector<SortedListOfEdge> graphs;
 	for (int i = 0; i < numberOfHuman; ++i)
 	{
@@ -133,16 +134,16 @@ vector<SortedListOfEdge> superMethod(vector<Human> humans)
 
 	for (int xi = 0; xi < numberOfMRA; xi++) 
 	{
-		if (xi % 10 == 0) cout << xi / 10 << endl;
+		if (xi % 10 == 0) cout << xi / 10 << endl; //индикатор прогресса
 
 		for (int yi = xi+1; yi < numberOfMRA; yi++) 
 		{
-			linearRegression *linReg = new linearRegression();
+			ILinearRegression *linReg = new OrdinaryLeastSquares(); //TODO change method
 
 			vector<double> x(numberOfHuman);
 			vector<double> y(numberOfHuman);
 
-			for (int h = 0, healph = 0; healph < hulfOfHealphHumans; h++) 
+			for (int h = 0, healph = 0; healph < hulfOfHealphHumans, h < humans.size(); h++)
 			{
 				if (!humans[h].isSick())
 				{
@@ -183,7 +184,6 @@ void main()
 {
 	setlocale(LC_ALL, "rus");
 
-	// 1. сбор данных из таблицы
 	int numX = 684; //TODO изменить колво людей (684 - максимум)
 	int numY = 1000; //TODO изменить колво MRAn
 	string pathGeneMeanMats = "C:\\Users\\Ilya\\Google Диск\\Zykov\\data\\geneMeanMats.csv";
@@ -194,8 +194,12 @@ void main()
 	vector<SortedListOfEdge> graphs = superMethod(humansMean);
 
 	vector<double> efficiencies = getEfficiencies(graphs);
-	vector<double> valuesOfMaxVertexes = getMaxVertexes(graphs);
 	//outGraphs(graphs, humans);
+
+	vector<Human> humansVar = readCSV(pathGeneVarMats, pathPhenData, numX, numY);
+	graphs = superMethod(humansVar);
+
+	vector<double> efficienciesVar = getEfficiencies(graphs);
 
 	///
 	string pathOut = "efficiencies.txt";
@@ -203,7 +207,7 @@ void main()
 
 	for (int i = 0; i < graphs.size(); i++)
 	{
-		outEfficiencies << efficiencies[i] << '\t'<< valuesOfMaxVertexes[i] << endl;
+		outEfficiencies << efficiencies[i] << '\t'<< efficienciesVar[i] << endl;
 	}
 	
 	outEfficiencies.close();

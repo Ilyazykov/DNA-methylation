@@ -64,17 +64,21 @@
   <ItemGroup>
     <ClCompile Include="Edge.cpp" />
     <ClCompile Include="Human.cpp" />
+    <ClCompile Include="ILinearRegression.cpp" />
     <ClCompile Include="linearRegression.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="normalDistribution.cpp" />
+    <ClCompile Include="OrdinaryLeastSquares.cpp" />
     <ClCompile Include="SortedListOfEdge.cpp" />
     <ClCompile Include="SVreader.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Edge.h" />
     <ClInclude Include="Human.h" />
+    <ClInclude Include="ILinearRegression.h" />
     <ClInclude Include="linearRegression.h" />
     <ClInclude Include="normalDistribution.h" />
+    <ClInclude Include="OrdinaryLeastSquares.h" />
     <ClInclude Include="SortedListOfEdge.h" />
     <ClInclude Include="SVreader.h" />
   </ItemGroup>
