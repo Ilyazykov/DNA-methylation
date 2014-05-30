@@ -9,209 +9,53 @@
 #include "normalDistribution.h"
 #include "SortedListOfEdge.h"
 #include "Edge.h"
+#include "Graphs.h"
+#include "MainMethod.h"
 using namespace std;
 
-vector<Human> readCSV(string pathForMatrixHormone, string pathForCase, int numX, int numY)
+void outEfficiencies(vector<double> efficiencies1, vector<double> efficiencies2, string pathOut)
 {
-	vector< vector<double> > sarr;
-	vector<bool> canserArray;
+	ofstream streamEfficiencies(pathOut.c_str());
 
-	CSVreader readerForHormoneLevel;
-	readerForHormoneLevel.readData(pathForMatrixHormone, ",", sarr, numY, numX);
-	readerForHormoneLevel.delTitles(sarr);
-
-	CSVreader readerForCanser;
-	readerForCanser.readVector(pathForCase, ",", canserArray, numX);
-	canserArray.erase(canserArray.begin());
-
-	int numberOfMRA = sarr.size();
-	int numberOfHuman = sarr[0].size();
-
-	vector<Human> humans;
-
-	for (int i = 0; i < numberOfHuman; ++i)
+	for (int i = 0; i < efficiencies1.size(); i++)
 	{
-		humans.emplace_back(Human(sarr,canserArray, i));
+		streamEfficiencies << efficiencies1[i] << '\t'<< efficiencies2[i] << endl;
 	}
 
-	return humans;
-}
+	streamEfficiencies.close();
 
-int getNumberOfControl(vector<Human> humans)
-{
-	int res = 0;
-	for (int i = 0; i < humans.size(); i++)
-	{
-		if (!humans[i].isSick()) res++;
-	}
-
-	return res;
-}
-
-void outGraphs(vector<SortedListOfEdge>& graphs, vector<Human> humans ) 
-{
-	string pathOut = "graphs.r";
-	ofstream outGraph(pathOut.c_str());
-
-	outGraph << "library(igraph, lib.loc=\"C:/Users/Ilya/Documents/RLibrary\")" << endl;
-	outGraph << "setwd(\"C:/Users/user/Desktop\")" << endl;
-
-	outGraph << "pdf(\"graphs.pdf\")" << endl;
-
-	int numberOfHumans = graphs.size();
-	for (int human = 0; human < numberOfHumans; human++)
-	{
-		outGraph << endl << endl;
-		outGraph << "graphs <- list()" << endl;
-		outGraph << "graphs[[1]] <- graph.formula( ";
-
-		int numberOfEdge = graphs[human].getLenght();
-		for (int i=0; i < numberOfEdge; i++)
-		{
-			Edge e = graphs[human].Pop();
-			
-			if (i!=0) outGraph << ", ";
-			outGraph << e.getVertexOne() << "-";
-			outGraph << e.getVertexTwo();
-		}
-		outGraph << ")" << endl;
-		outGraph << "graphs[[1]] <- simplify(graphs[[1]])" << endl;
-		outGraph << endl;
-		outGraph << "lay <- lapply(graphs, layout.fruchterman.reingold, niter=3000)" << endl;
-		outGraph << endl;
-		outGraph << "par(mai=c(0,0,0,0))" << endl;
-		outGraph << "layout(matrix(1:1, nr=1, byrow=TRUE))" << endl;
-		outGraph << "for (i in seq(along=graphs)) {" << endl;
-		outGraph << "  plot(graphs[[i]], layout=lay[[i]]," << endl;
-		outGraph << "       vertex.label=NA, vertex.size=3, edge.color=\"black\"," << endl;
-		outGraph << "       vertex.color=\"";
-		if (humans[human].isSick()) outGraph << "red"; 
-		else outGraph << "green";
-		outGraph << "\")" << endl;
-		outGraph << "}" << endl;
-	}
-	outGraph << "dev.off()" << endl;
-
-	outGraph.close();
-}
-
-vector<double> getEfficiencies( vector<SortedListOfEdge>& graphs ) 
-{
-	vector<double> res(graphs.size());
-
-	for (int i = 0; i < graphs.size(); i++)
-	{
-		res[i] = graphs[i].getEfficiency();
-	}
-
-	return res;
-}
-
-vector<double> getMaxVertexes( vector<SortedListOfEdge>& graphs ) 
-{
-	vector<double> res(graphs.size());
-
-	for (int i = 0; i < graphs.size(); i++)
-	{
-		res[i] = graphs[i].getMaxVertex();
-	}
-
-	return res;
-}
-
-vector<SortedListOfEdge> superMethod(vector<Human> humans)
-{
-	int numberOfHuman = humans.size();
-	int numberOfMRA = humans[0].getSizeMiRNAexpression();
-	int hulfOfHealphHumans = getNumberOfControl(humans) / 2;
-	int maxLenghtOfGraph = 500;
-
-	vector<SortedListOfEdge> graphs;
-	for (int i = 0; i < numberOfHuman; ++i)
-	{
-		graphs.emplace_back(SortedListOfEdge(numberOfMRA, maxLenghtOfGraph));
-	}
-
-	for (int xi = 0; xi < numberOfMRA; xi++) 
-	{
-		if (xi % 10 == 0) cout << xi / 10 << endl; //индикатор прогресса
-
-		for (int yi = xi+1; yi < numberOfMRA; yi++) 
-		{
-			ILinearRegression *linReg = new OrdinaryLeastSquares(); //TODO change method
-
-			vector<double> x(numberOfHuman);
-			vector<double> y(numberOfHuman);
-
-			for (int h = 0, healph = 0; healph < hulfOfHealphHumans, h < humans.size(); h++)
-			{
-				if (!humans[h].isSick())
-				{
-					x.push_back(humans[h].getMiRNAexpression(xi));
-					y.push_back(humans[h].getMiRNAexpression(yi));
-					healph++;
-				}
-			}
-			linReg->getLinearRegression(x, y);
-
-			x.clear();
-			y.clear();
-
-			vector<double> errorsForLinearRegression(numberOfHuman);
-			for (int h = 0; h < numberOfHuman; h++)
-			{
-				errorsForLinearRegression[h] = abs(linReg->getError(humans[h].getMiRNAexpression(xi), humans[h].getMiRNAexpression(yi)));
-			}
-
-			delete linReg;
-
-			normalDistribution *nDistrib = new normalDistribution(errorsForLinearRegression, 0.0);
-
-			for (int h = 0; h < numberOfHuman; h++)
-			{
-				Edge edge(xi, yi, nDistrib->getZScore(errorsForLinearRegression[h]));
-				graphs[h].Push(edge);
-			}
-
-			errorsForLinearRegression.clear();
-			delete nDistrib;
-		}
-	}	
-	return graphs;
+	cout << "Готово!";
 }
 
 void main()
 {
 	setlocale(LC_ALL, "rus");
 
-	int numX = 684; //TODO изменить колво людей (684 - максимум)
+	int numX = 300; //TODO изменить колво людей (684 - максимум)
 	int numY = 1000; //TODO изменить колво MRAn
 	string pathGeneMeanMats = "C:\\Users\\Ilya\\Google Диск\\Zykov\\data\\geneMeanMats.csv";
 	string pathGeneVarMats = "C:\\Users\\Ilya\\Google Диск\\Zykov\\data\\geneVarMats.csv";
 	string pathPhenData = "C:\\Users\\Ilya\\Google Диск\\Zykov\\data\\phenData.csv";
 
-	vector<Human> humansMean = readCSV(pathGeneMeanMats, pathPhenData, numX, numY);
-	vector<SortedListOfEdge> graphs = superMethod(humansMean);
-
-	vector<double> efficiencies = getEfficiencies(graphs);
-	//outGraphs(graphs, humans);
-
-	vector<Human> humansVar = readCSV(pathGeneVarMats, pathPhenData, numX, numY);
-	graphs = superMethod(humansVar);
-
-	vector<double> efficienciesVar = getEfficiencies(graphs);
-
-	///
-	string pathOut = "efficiencies.txt";
-	ofstream outEfficiencies(pathOut.c_str());
-
-	for (int i = 0; i < graphs.size(); i++)
-	{
-		outEfficiencies << efficiencies[i] << '\t'<< efficienciesVar[i] << endl;
-	}
+	MainMethod *method = new MainMethod(pathGeneMeanMats, pathPhenData, numX, numY, 500);
 	
-	outEfficiencies.close();
+	Graphs *graphs = new Graphs(method->execute());
+	vector<double> efficiencies = graphs->getEfficiencies();
 
-	cout << "Готово!";
+	//vector<double> vertexMax = graphs->getMaxVertexes()
+	//graphs->outGraphs(method->getSickVector(), "graphes.r");
+
+	delete graphs;
+	delete method;
+
+	method = new MainMethod(pathGeneVarMats, pathPhenData, numX, numY, 500);
+ 	graphs = new Graphs(method->execute());
+	vector<double> efficienciesVar = graphs->getEfficiencies();
+
+	delete graphs;
+	delete method;
+
+	outEfficiencies(efficiencies, efficienciesVar, "efficiencies.txt");
+
 	cin.get();
 }

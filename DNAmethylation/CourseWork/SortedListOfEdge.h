@@ -32,6 +32,34 @@ public:
 		this->maxLenght = maxLenght;
 	}
 
+	SortedListOfEdge(const SortedListOfEdge& secondList)
+	{
+		lenght = secondList.lenght;
+		maxLenght = secondList.maxLenght;
+		numberOfNodes = secondList.numberOfNodes;
+
+		if (secondList.begin == NULL)
+		{
+			begin = NULL;
+			return;
+		}
+
+		begin = new myList(secondList.begin->edge, NULL);
+
+		myList *SecondNext = secondList.begin->next;
+		myList *curr = begin;
+
+		while (SecondNext != NULL)
+		{
+			myList *list = new myList(SecondNext->edge, NULL);
+
+			curr->next = list;
+			curr = curr->next;
+			
+			SecondNext = SecondNext->next;
+		}
+	}
+
 	int getMaxVertex()
 	{
 		map<int, int> vertexes;

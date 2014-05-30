@@ -48,6 +48,12 @@
     <ClCompile Include="SortedListOfEdge.cpp">
       <Filter>Graph</Filter>
     </ClCompile>
+    <ClCompile Include="MainMethod.cpp">
+      <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphs.cpp">
+      <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Human.h">
@@ -74,5 +80,14 @@
     <ClInclude Include="OrdinaryLeastSquares.h">
       <Filter>Regression</Filter>
     </ClInclude>
+    <ClInclude Include="MainMethod.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphs.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ClassDiagram.cd" />
   </ItemGroup>
 </Project>
