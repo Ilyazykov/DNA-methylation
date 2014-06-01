@@ -31,14 +31,14 @@ void main()
 {
 	setlocale(LC_ALL, "rus");
 
-	int numX = 300; //TODO изменить колво людей (684 - максимум)
+	int numX = 684; //TODO изменить колво людей (684 - максимум)
 	int numY = 1000; //TODO изменить колво MRAn
 	string pathGeneMeanMats = "C:\\Users\\Ilya\\Google Диск\\Zykov\\data\\geneMeanMats.csv";
+	string pathGeneMeanMats1000 = "C:\\Users\\Ilya\\Google Диск\\Zykov\\data\\2geneMeanMats.csv";
 	string pathGeneVarMats = "C:\\Users\\Ilya\\Google Диск\\Zykov\\data\\geneVarMats.csv";
 	string pathPhenData = "C:\\Users\\Ilya\\Google Диск\\Zykov\\data\\phenData.csv";
 
 	MainMethod *method = new MainMethod(pathGeneMeanMats, pathPhenData, numX, numY, 500);
-	
 	Graphs *graphs = new Graphs(method->execute());
 	vector<double> efficiencies = graphs->getEfficiencies();
 
@@ -48,14 +48,14 @@ void main()
 	delete graphs;
 	delete method;
 
-	method = new MainMethod(pathGeneVarMats, pathPhenData, numX, numY, 500);
+	method = new MainMethod(pathGeneMeanMats1000, pathPhenData, numX, numY, 500);
  	graphs = new Graphs(method->execute());
-	vector<double> efficienciesVar = graphs->getEfficiencies();
+	vector<double> efficiencies1000 = graphs->getEfficiencies();
 
 	delete graphs;
 	delete method;
 
-	outEfficiencies(efficiencies, efficienciesVar, "efficiencies.txt");
+	outEfficiencies(efficiencies, efficiencies1000, "efficiencies.txt");
 
 	cin.get();
 }

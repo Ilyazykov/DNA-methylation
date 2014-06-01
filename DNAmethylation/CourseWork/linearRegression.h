@@ -41,7 +41,7 @@ public:
 		double fi = atan( 2*(n*sumOfXY-sumOfX*sumOfY) / ((n*sumOfYsq-pow(sumOfY,2))-(n*sumOfXsq-pow(sumOfX,2))) )  /  2;
 		a1 = sin(fi);
 		a2 = cos(fi);
-		b = (a1*sumOfX+ a2*sumOfY) / (double)n;
+		b = (a1*sumOfX+a2*sumOfY) / (double)n;
 	}
 
 	linearRegression(vector<double> x, vector<double> y)

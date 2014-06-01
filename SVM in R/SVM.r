@@ -31,29 +31,36 @@ dev.copy2pdf(file=paste("plot.pdf",sep=""))
 library(e1071)
 library(rpart)
 svm.TP = svm.FN = svm.FP = svm.TN = 0
-for (i in 1:n){
-	svm.model <- svm(datafile[-i,1]~.,datafile[-i,2:9])
-	pred <- predict(svm.model, datafile[i,2:9])
-	if (pred >= 0.5) {
-		pred = 1
-	} else {
-		pred = 0
-	}
 
-	if (pred == datafile[i,1]) {
-		if (pred == 1) {
-		svm.TP = svm.TP+1
-		} else {
-			svm.TN = svm.TN+1
+n = 300
+dat = cbind(v1,v2)
+phen<-as.factor(phen)
+model<-svm(phen~.,data=dat,kernel="linear",C=5)
+
+for (i in 1:length(v1)) {
+	pred<-predict(model, cbind(dat[i,1], dat[i,2]))
+	
+	if (pred == phen[i]) 
+	{
+		if (pred) 
+		{
+			svm.TP = svm.TP+1;
+		} else 
+		{
+			svm.TN = svm.TN+1;
 		}
-	} else {
-		if (pred == 1) {
-		svm.FP = svm.FP+1
-		} else {
-			svm.FN = svm.FN+1
+	} else
+	{
+		if (pred) 
+		{
+			svm.FP = svm.FP+1;
+		} else 
+		{
+			svm.FN = svm.FN+1;
 		}
 	}
 }
+		
 
 svm.sensitivity = svm.TP/(svm.TP+svm.FN)
 svm.specificity = svm.TN/(svm.TN+svm.FP)

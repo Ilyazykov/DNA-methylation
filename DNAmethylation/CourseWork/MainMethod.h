@@ -98,8 +98,8 @@ public:
 			{
 				ILinearRegression *linReg = new OrdinaryLeastSquares(); //TODO change method
 
-				vector<double> x(numberOfHuman); //TODO change number for healph
-				vector<double> y(numberOfHuman); //TODO change number for healph
+				vector<double> x(hulfOfHealphHumans); //TODO change number for healph
+				vector<double> y(hulfOfHealphHumans); //TODO change number for healph
 
 				for (int h = 0, healph = 0; healph < hulfOfHealphHumans, h < humans.size(); h++)
 				{

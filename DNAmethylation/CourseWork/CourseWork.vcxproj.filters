@@ -52,7 +52,7 @@
       <Filter>Файлы исходного кода</Filter>
     </ClCompile>
     <ClCompile Include="Graphs.cpp">
-      <Filter>Файлы исходного кода</Filter>
+      <Filter>Graph</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -84,7 +84,7 @@
       <Filter>Заголовочные файлы</Filter>
     </ClInclude>
     <ClInclude Include="Graphs.h">
-      <Filter>Заголовочные файлы</Filter>
+      <Filter>Graph</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
