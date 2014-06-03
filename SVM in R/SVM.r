@@ -42,7 +42,7 @@ for (i in 1:length(v1)) {
 	
 	if (pred == phen[i]) 
 	{
-		if (pred) 
+		if (pred == TRUE) 
 		{
 			svm.TP = svm.TP+1;
 		} else 
@@ -51,7 +51,7 @@ for (i in 1:length(v1)) {
 		}
 	} else
 	{
-		if (pred) 
+		if (pred == TRUE)
 		{
 			svm.FP = svm.FP+1;
 		} else 

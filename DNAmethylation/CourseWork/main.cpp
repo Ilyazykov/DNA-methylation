@@ -31,7 +31,7 @@ void main()
 {
 	setlocale(LC_ALL, "rus");
 
-	int numX = 684; //TODO изменить колво людей (684 - максимум)
+	int numX = 300; //TODO изменить колво людей (684 - максимум)
 	int numY = 1000; //TODO изменить колво MRAn
 	string pathGeneMeanMats = "C:\\Users\\Ilya\\Google Диск\\Zykov\\data\\geneMeanMats.csv";
 	string pathGeneMeanMats1000 = "C:\\Users\\Ilya\\Google Диск\\Zykov\\data\\2geneMeanMats.csv";

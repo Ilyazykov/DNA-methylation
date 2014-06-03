@@ -96,12 +96,12 @@ public:
 
 			for (int yi = xi+1; yi < numberOfMRA; yi++) 
 			{
-				ILinearRegression *linReg = new OrdinaryLeastSquares(); //TODO change method
-
+				
 				vector<double> x(hulfOfHealphHumans); //TODO change number for healph
 				vector<double> y(hulfOfHealphHumans); //TODO change number for healph
 
-				for (int h = 0, healph = 0; healph < hulfOfHealphHumans, h < humans.size(); h++)
+				ILinearRegression *linReg = new OrdinaryLeastSquares(); //TODO change method
+				for (int h = 0, healph = 0; healph < hulfOfHealphHumans;h++)
 				{
 					if (!humans[h].isSick())
 					{
@@ -112,26 +112,48 @@ public:
 				}
 				linReg->getLinearRegression(x, y);
 
+				/*vector<double> errorsForLinearRegression(hulfOfHealphHumans);
+				for (int h = 0; h < hulfOfHealphHumans; h++)
+				{
+					errorsForLinearRegression[h] = abs(linReg->getError(x[h], y[h]));
+				}*/
+
 				x.clear();
 				y.clear();
 
-				vector<double> errorsForLinearRegression(numberOfHuman);
-				for (int h = 0; h < numberOfHuman; h++)
+				vector<double> errors(numberOfHuman);
+				vector<double> errorsForLinearRegression(hulfOfHealphHumans);
+				
+				for (int h = 0, healph = 0; h < numberOfHuman; h++)
 				{
-					errorsForLinearRegression[h] = abs(linReg->getError(humans[h].getMiRNAexpression(xi), humans[h].getMiRNAexpression(yi)));
+					errors[h] = abs(linReg->getError(humans[h].getMiRNAexpression(xi), humans[h].getMiRNAexpression(yi)));
+					if (healph<hulfOfHealphHumans)
+					{
+						if (!humans[h].isSick())
+						{
+							errorsForLinearRegression[healph] = errors[h];
+							healph++;
+						}
+					}
 				}
 
 				delete linReg;
 
 				normalDistribution *nDistrib = new normalDistribution(errorsForLinearRegression, 0.0);
+				errorsForLinearRegression.clear();
+
+				/*for (int h = 0; h < numberOfHuman; h++)
+				{
+					errorsForLinearRegression[h] = abs(linReg->getError(humans[h].getMiRNAexpression(xi), humans[h].getMiRNAexpression(yi)));
+				}*/
 
 				for (int h = 0; h < numberOfHuman; h++)
 				{
-					Edge edge(xi, yi, nDistrib->getZScore(errorsForLinearRegression[h]));
+					Edge edge(xi, yi, nDistrib->getZScore(errors[h]));
 					graphs[h].Push(edge);
 				}
 
-				errorsForLinearRegression.clear();
+				errors.clear();
 				delete nDistrib;
 			}
 		}	

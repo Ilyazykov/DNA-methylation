@@ -19,14 +19,15 @@ public:
 	{
 		this->expectation = expectation;
 
+		double n = (double)x.size();
 		double sum = 0;
 		double sumsq = 0;
-		for (int i = 0; i < x.size(); i++)
+		for (int i = 0; i < n; i++)
 		{
 			sum += x[i];
 			sumsq += x[i]*x[i];
 		}
-		dispertion = (sumsq - sum*sum / x.size()) / (x.size() - 1);
+		dispertion = (sumsq * n - sum*sum) / ((n - 1)*n);
 
 		standartDeviation = sqrt(dispertion);
 	}
