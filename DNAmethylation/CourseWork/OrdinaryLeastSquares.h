@@ -6,42 +6,13 @@ class OrdinaryLeastSquares : public ILinearRegression
 	double alpha;
 	double beta;
 public:
-	OrdinaryLeastSquares()
-	{
-	}
+	OrdinaryLeastSquares();
 
-	virtual void getLinearRegression(vector<double> x, vector<double> y)
-	{
-		if (x.size() != y.size()) throw exception("Size of vectors is different");
+	virtual void getLinearRegression(vector<double> x, vector<double> y);
 
-		int n = x.size();
+	OrdinaryLeastSquares(vector<double> x, vector<double> y);
 
-		double sumOfY = 0;
-		double sumOfX = 0;
-		double sumOfXY = 0;
-		double sumOfXsq = 0;
+	virtual double getError(double x, double y) const;
 
-		for (int i=0;i<n;i++)
-		{
-			sumOfY += y[i];
-			sumOfX += x[i];
-			sumOfXY += x[i] * y[i];
-			sumOfXsq += x[i] * x[i];
-		}
-
-		beta = (n*sumOfXY - sumOfX*sumOfY)/(n*sumOfXsq - sumOfX*sumOfX);
-		alpha = (sumOfY - beta*sumOfX)/(double)n;
-	}
-
-	OrdinaryLeastSquares(vector<double> x, vector<double> y)
-	{
-		getLinearRegression(x, y);
-	}
-
-	virtual double getError(double x, double y) const
-	{
-		return y - beta*x - alpha;
-	}
-
-	~OrdinaryLeastSquares(void) {}
+	~OrdinaryLeastSquares(void);
 };

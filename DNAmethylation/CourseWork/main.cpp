@@ -27,11 +27,25 @@ void outEfficiencies(vector<double> efficiencies1, vector<double> efficiencies2,
 	cout << "Готово!";
 }
 
+void outEfficiencies(vector<double> efficiencies1, vector<int> efficiencies2, string pathOut)
+{
+	ofstream streamEfficiencies(pathOut.c_str());
+
+	for (int i = 0; i < efficiencies1.size(); i++)
+	{
+		streamEfficiencies << efficiencies1[i] << '\t'<< efficiencies2[i] << endl;
+	}
+
+	streamEfficiencies.close();
+
+	cout << "Готово!";
+}
+
 void main()
 {
 	setlocale(LC_ALL, "rus");
 
-	int numX = 300; //TODO изменить колво людей (684 - максимум)
+	int numX = 684; //TODO изменить колво людей (684 - максимум)
 	int numY = 1000; //TODO изменить колво MRAn
 	string pathGeneMeanMats = "C:\\Users\\Ilya\\Google Диск\\Zykov\\data\\geneMeanMats.csv";
 	string pathGeneMeanMats1000 = "C:\\Users\\Ilya\\Google Диск\\Zykov\\data\\2geneMeanMats.csv";
@@ -49,7 +63,7 @@ void main()
 	//graphs->outGraphs(method->getSickVector(), "graphes.r");
 
 	method = new MainMethod(pathGeneVarMats, pathPhenData, numX, numY, 1000);
- 	graphs = new Graphs(method->execute());
+	graphs = new Graphs(method->execute());
 	vector<double> efficiencies1000 = graphs->getEfficiencies();
 
 	delete graphs;

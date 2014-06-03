@@ -5,42 +5,15 @@ class Edge
 	int vertexTwo;
 	double weight;
 public:
-	Edge(int vertexOne = -1, int vertexTwo = -1, double weight = -1)
-	{
-		if (vertexOne > vertexTwo) 
-		{
-			this->vertexOne = vertexTwo;
-			this->vertexTwo = vertexOne;
-		}
-		else
-		{
-			this->vertexOne = vertexOne;
-			this->vertexTwo = vertexTwo;
-		}
-		this->weight = weight;
-	}
+	Edge(int vertexOne = -1, int vertexTwo = -1, double weight = -1);
 
-	Edge(const Edge& e)
-	{
-		this->vertexOne = e.vertexOne;
-		this->vertexTwo = e.vertexTwo;
-		this->weight = e.weight;
-	}
+	Edge(const Edge& e);
 
-	double getWeight()
-	{
-		return weight;
-	}
+	double getWeight();
 
-	double getVertexOne()
-	{
-		return vertexOne;
-	}
+	double getVertexOne();
 
-	double getVertexTwo()
-	{
-		return vertexTwo;
-	}
+	double getVertexTwo();
 
 	~Edge() {}
 };
