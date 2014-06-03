@@ -112,12 +112,6 @@ public:
 				}
 				linReg->getLinearRegression(x, y);
 
-				/*vector<double> errorsForLinearRegression(hulfOfHealphHumans);
-				for (int h = 0; h < hulfOfHealphHumans; h++)
-				{
-					errorsForLinearRegression[h] = abs(linReg->getError(x[h], y[h]));
-				}*/
-
 				x.clear();
 				y.clear();
 
@@ -141,11 +135,6 @@ public:
 
 				normalDistribution *nDistrib = new normalDistribution(errorsForLinearRegression, 0.0);
 				errorsForLinearRegression.clear();
-
-				/*for (int h = 0; h < numberOfHuman; h++)
-				{
-					errorsForLinearRegression[h] = abs(linReg->getError(humans[h].getMiRNAexpression(xi), humans[h].getMiRNAexpression(yi)));
-				}*/
 
 				for (int h = 0; h < numberOfHuman; h++)
 				{

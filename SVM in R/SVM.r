@@ -5,12 +5,13 @@ attach(mydata)
 v1 <- mydata$V1
 v2 <- mydata$V2
 load("phenDataTCGABRCA.rd")
+phen = phen[1:length(v2)]
 
 control1 <- v1[which(phen==FALSE)] 
 control2 <- v2[which(phen==FALSE)] 
 
-control1 = control1[(length(control1) / 2):(length(control1))]
-control2 = control2[(length(control2) / 2):(length(control2))]
+control1 = control1[((length(control1) / 2)+1):(length(control1))]
+control2 = control2[((length(control2) / 2)+1):(length(control2))]
 
 case1 <- v1[which(phen==TRUE)]
 case2 <- v2[which(phen==TRUE)]

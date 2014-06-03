@@ -38,17 +38,17 @@ void main()
 	string pathGeneVarMats = "C:\\Users\\Ilya\\Google Диск\\Zykov\\data\\geneVarMats.csv";
 	string pathPhenData = "C:\\Users\\Ilya\\Google Диск\\Zykov\\data\\phenData.csv";
 
-	MainMethod *method = new MainMethod(pathGeneMeanMats, pathPhenData, numX, numY, 500);
+	MainMethod *method = new MainMethod(pathGeneMeanMats, pathPhenData, numX, numY, 1000);
 	Graphs *graphs = new Graphs(method->execute());
 	vector<double> efficiencies = graphs->getEfficiencies();
-
-	//vector<double> vertexMax = graphs->getMaxVertexes()
-	//graphs->outGraphs(method->getSickVector(), "graphes.r");
 
 	delete graphs;
 	delete method;
 
-	method = new MainMethod(pathGeneMeanMats1000, pathPhenData, numX, numY, 500);
+	//vector<double> vertexMax = graphs->getMaxVertexes()
+	//graphs->outGraphs(method->getSickVector(), "graphes.r");
+
+	method = new MainMethod(pathGeneVarMats, pathPhenData, numX, numY, 1000);
  	graphs = new Graphs(method->execute());
 	vector<double> efficiencies1000 = graphs->getEfficiencies();
 
