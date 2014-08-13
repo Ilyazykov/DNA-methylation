@@ -28,7 +28,7 @@ points(control1, control2, col="blue")
 dev.copy2pdf(file=paste("plot.pdf",sep=""))
 
 
-//--------------------------------------------------
+//-------------------------------------------------
 library(e1071)
 library(rpart)
 svm.TP = svm.FN = svm.FP = svm.TN = 0
